@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>User:</b>
+  <%= @address.user_id %>
+</p>
+
+<p>
+  <b>Subscription:</b>
+  <%= @address.subscription_id %>
+</p>
+
+<p>
+  <b>Address:</b>
+  <%= @address.address %>
+</p>
+
+<p>
+  <b>Address line 2:</b>
+  <%= @address.address_line_2 %>
+</p>
+
+<p>
+  <b>City:</b>
+  <%= @address.city %>
+</p>
+
+<p>
+  <b>State:</b>
+  <%= @address.state %>
+</p>
+
+<p>
+  <b>Zip:</b>
+  <%= @address.zip %>
+</p>
+
+
+<%= link_to 'Edit', edit_address_path(@address) %> |
+<%= link_to 'Back', addresses_path %>

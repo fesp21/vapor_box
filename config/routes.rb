@@ -1,4 +1,13 @@
 Myapp::Application.routes.draw do
+  resources :items
+
+
+  resources :addresses
+
+
+  resources :subscriptions
+
+
   get "static_pages/home"
   
 
