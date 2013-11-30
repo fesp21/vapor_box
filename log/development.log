@@ -1466,3 +1466,55 @@ Served asset /static_pages.js - 304 Not Modified (0ms)
 
 Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-11-28 15:56:21 -0800
 Served asset /application.js - 304 Not Modified (0ms)
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+  [1m[36m (1.7ms)[0m  [1mSELECT `schema_migrations`.`version` FROM `schema_migrations` [0m
+Migrating to DeviseCreateUsers (20131128185749)
+Migrating to CreateSubscriptions (20131130064347)
+  [1m[35m (37.9ms)[0m  CREATE TABLE `subscriptions` (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `cost` decimal(8,2), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL) ENGINE=InnoDB
+  [1m[36m (0.9ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20131130064347')[0m
+Migrating to CreateAddresses (20131130064502)
+  [1m[35m (11.7ms)[0m  CREATE TABLE `addresses` (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `address` varchar(255), `address2` varchar(255), `city` varchar(255), `state` varchar(255), `zip` varchar(255), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL) ENGINE=InnoDB
+  [1m[36m (0.4ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20131130064502')[0m
+Migrating to CreateItems (20131130064530)
+  [1m[35m (11.9ms)[0m  CREATE TABLE `items` (`id` int(11) DEFAULT NULL auto_increment PRIMARY KEY, `name` varchar(255), `level` varchar(255), `type` varchar(255), `quantity` int(11), `cost` decimal(8,2), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL) ENGINE=InnoDB
+  [1m[36m (0.4ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20131130064530')[0m
+Migrating to CreateJoinTableItemSubscription (20131130064633)
+Connecting to database specified by database.yml
+  [1m[36m (1.5ms)[0m  [1mSELECT `schema_migrations`.`version` FROM `schema_migrations` [0m
+Migrating to DeviseCreateUsers (20131128185749)
+Migrating to CreateSubscriptions (20131130064347)
+Migrating to CreateAddresses (20131130064502)
+Migrating to CreateItems (20131130064530)
+Migrating to CreateJoinTableItemSubscription (20131130064633)
+  [1m[35m (13.0ms)[0m  CREATE TABLE `items_subscriptions` (`item_id` int(11), `subscription_id` int(11)) ENGINE=InnoDB
+  [1m[36m (0.5ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20131130064633')[0m
+Migrating to AddUserIdToSubscriptions (20131130070441)
+  [1m[35m (53.8ms)[0m  ALTER TABLE `subscriptions` ADD `user_id` int(11)
+  [1m[36m (18.5ms)[0m  [1mCREATE INDEX `index_subscriptions_on_user_id` ON `subscriptions` (`user_id`)[0m
+  [1m[35m (0.4ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20131130070441')
+Migrating to AddAddressIdToSubscriptions (20131130070513)
+  [1m[36m (25.6ms)[0m  [1mALTER TABLE `subscriptions` ADD `address_id` int(11)[0m
+  [1m[35m (18.3ms)[0m  CREATE INDEX `index_subscriptions_on_address_id` ON `subscriptions` (`address_id`)
+  [1m[36m (0.3ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20131130070513')[0m
+Migrating to AddSubscriptionIdToAddresses (20131130070547)
+  [1m[35m (19.7ms)[0m  ALTER TABLE `addresses` ADD `subscription_id` int(11)
+  [1m[36m (15.6ms)[0m  [1mCREATE INDEX `index_addresses_on_subscription_id` ON `addresses` (`subscription_id`)[0m
+  [1m[35m (0.4ms)[0m  INSERT INTO `schema_migrations` (`version`) VALUES ('20131130070547')
+Migrating to AddUserIdToAddresses (20131130070609)
+  [1m[36m (21.4ms)[0m  [1mALTER TABLE `addresses` ADD `user_id` int(11)[0m
+  [1m[35m (14.8ms)[0m  CREATE INDEX `index_addresses_on_user_id` ON `addresses` (`user_id`)
+  [1m[36m (0.4ms)[0m  [1mINSERT INTO `schema_migrations` (`version`) VALUES ('20131130070609')[0m
+  [1m[35m (0.2ms)[0m  SELECT `schema_migrations`.`version` FROM `schema_migrations` 

@@ -11,7 +11,48 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131128185749) do
+ActiveRecord::Schema.define(:version => 20131130070609) do
+
+  create_table "addresses", :force => true do |t|
+    t.string   "address"
+    t.string   "address2"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zip"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.integer  "subscription_id"
+    t.integer  "user_id"
+  end
+
+  add_index "addresses", ["subscription_id"], :name => "index_addresses_on_subscription_id"
+  add_index "addresses", ["user_id"], :name => "index_addresses_on_user_id"
+
+  create_table "items", :force => true do |t|
+    t.string   "name"
+    t.string   "level"
+    t.string   "type"
+    t.integer  "quantity"
+    t.decimal  "cost",       :precision => 8, :scale => 2
+    t.datetime "created_at",                               :null => false
+    t.datetime "updated_at",                               :null => false
+  end
+
+  create_table "items_subscriptions", :id => false, :force => true do |t|
+    t.integer "item_id"
+    t.integer "subscription_id"
+  end
+
+  create_table "subscriptions", :force => true do |t|
+    t.decimal  "cost",       :precision => 8, :scale => 2
+    t.datetime "created_at",                               :null => false
+    t.datetime "updated_at",                               :null => false
+    t.integer  "user_id"
+    t.integer  "address_id"
+  end
+
+  add_index "subscriptions", ["address_id"], :name => "index_subscriptions_on_address_id"
+  add_index "subscriptions", ["user_id"], :name => "index_subscriptions_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
