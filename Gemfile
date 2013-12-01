@@ -22,9 +22,11 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
+gem 'handlebars_assets'
+gem 'bootstrap-sass'
 gem 'devise'
+gem "haml", "~> 4.0.4"
 gem 'jquery-rails'
-gem 'bootstrap-sass', '~> 2.3.2.1'
 gem 'jquery-rails'
 gem "rails-backbone"
 gem 'mysql2'
