@@ -9444,3 +9444,13 @@ Served asset /application.js - 304 Not Modified (1ms)
 
 Started GET "/assets/backbone_datalink.js?body=1" for 127.0.0.1 at 2013-12-02 00:49:07 -0800
 Served asset /backbone_datalink.js - 304 Not Modified (0ms)
+Connecting to database specified by database.yml
+
+
+Started GET "/assets/rails.png" for 127.0.0.1 at 2013-12-02 11:30:40 -0500
+Served asset /rails.png - 200 OK (2ms)
+Connecting to database specified by database.yml
+
+
+Started GET "/assets/rails.png" for 127.0.0.1 at 2013-12-02 11:31:52 -0500
+Served asset /rails.png - 304 Not Modified (1ms)
