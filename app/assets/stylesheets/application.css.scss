@@ -12,4 +12,8 @@
  *= require_tree .
  */
 
+@import url(http://fonts.googleapis.com/css?family=Open+Sans);
+
+$navbar-default-bg: #FFF;
+$font-family-sans-serif: 'Open Sans', Verdana, Helvetica, sans-serif;
 @import "bootstrap";
