@@ -7,7 +7,8 @@ Myapp::Application.routes.draw do
 
   # resources :subscriptions
 
-
+  get '/about', to: 'static_pages#about'
+  get '/how_it_works', to: 'static_pages#how_it_works'
   get "static_pages/home"
   
 
