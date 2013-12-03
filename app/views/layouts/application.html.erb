@@ -3,7 +3,7 @@
 <head>
   <title>Vapor Box</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <%= stylesheet_link_tag "application", :media => "all" %>
+  <%= stylesheet_link_tag "application","//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css", :media => "all" %>
   <%= yield :stylesheets %>
   <%= javascript_include_tag "application" %>
   <%= yield :javascripts %>
@@ -28,7 +28,8 @@
         <ul class="nav navbar-nav">
           <li class="active"><a href="#">Home</a></li>
           <li><a href="#about">About</a></li>
-          <li><a href="#contact">Contact</a></li>
+          <li><a href="#contact">How It Works</a></li>
+          <li><a href="#contact">Get VaporBox</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <% if user_signed_in? %>
