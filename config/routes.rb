@@ -1,11 +1,11 @@
 Myapp::Application.routes.draw do
-  resources :items
+  # resources :items
 
 
-  resources :addresses
+  # resources :addresses
 
 
-  resources :subscriptions
+  # resources :subscriptions
 
 
   get "static_pages/home"
