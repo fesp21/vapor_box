@@ -22,14 +22,14 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">VaporBox</a>
+        <a class="navbar-brand" href="/">VaporBox</a>
       </div>
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="#">Home</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#contact">How It Works</a></li>
-          <li><a href="#contact">Get VaporBox</a></li>
+          <li class="active"><a href="/">Home</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/how_it_works">How It Works</a></li>
+          <li><a href="/signup">Get VaporBox</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <% if user_signed_in? %>
@@ -52,5 +52,22 @@
   <div id="main-content">
       <%= yield %>
   </div>
+  <footer id="footer">
+    <div class="row">
+      <div class="col-md-4"></div>
+      <div class="col-md-4"></div>
+      <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+  
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+
+      </div>
+    </div>
+  </foooter>
 </body>
 </html>
