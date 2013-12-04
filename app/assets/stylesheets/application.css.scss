@@ -27,10 +27,17 @@ $font-family-sans-serif: 'Open Sans', Verdana, Helvetica, sans-serif;
   padding-left: 0px;
   padding-right: 0px;
 }
-
+a, .fa {
+  -webkit-transition: all .2s linear;
+  -moz-transition: all .2s linear;
+  -ms-transition: all .2s linear;
+  -o-transition: all .2s linear;
+  transition: all .2s linear;
+}
 #footer {
   background-color: #687CA5;
   padding-top: 50px;
+  color: #fafafa;
   a {
     display: inline-block;
     padding: 10px;
@@ -62,6 +69,7 @@ $font-family-sans-serif: 'Open Sans', Verdana, Helvetica, sans-serif;
       color: #DFDFDF;
       &:hover {
         color: #fafafa;
+        text-decoration: none;
       }
     }
   }
