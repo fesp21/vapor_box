@@ -22,14 +22,14 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="/">VaporBox</a>
+        <a class="navbar-brand" href="/">Vapor Box</a>
       </div>
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
           <li class="active"><a href="/">Home</a></li>
           <li><a href="/about">About</a></li>
           <li><a href="/how_it_works">How It Works</a></li>
-          <li><a href="/signup">Get VaporBox</a></li>
+          <li><a href="/signup">Get Vapor Box</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <% if user_signed_in? %>
@@ -54,20 +54,36 @@
   </div>
   <footer id="footer">
     <div class="row">
-      <div class="col-md-4"></div>
-      <div class="col-md-4"></div>
-      <div class="col-md-4"></div>
+      <div class="col-md-12">
+        <div class="container">
+          <div class="logo text-center">Vapor Box</div>
+          <div class="social-nav text-center">
+            <%= link_to  '' do %>
+              <i class="fa fa-facebook fa-3x"></i>
+            <% end %>
+            <%= link_to '' do %>
+              <i class="fa fa-twitter fa-3x"></i>
+            <% end %>
+            <%= link_to  '' do %>
+              <i class="fa fa-google-plus fa-3x"></i>
+            <% end %>
+            
+          </div>
+          <div class='footer-nav text-center'>
+            <%= link_to 'Home', '' %>
+            <%= link_to 'About', '' %>
+            <%= link_to 'How It Works', '' %>
+            <%= link_to 'Get Vapor Box', '' %>
+          </div>
+        </div>
     </div>
     <div class="row">
-      <div class="col-md-6 col-md-offset-3">
-  
+      <div class="col-md-12">
+          <div id='copyright' class='text-center'>
+            <small>Copyright © 2013 Vapor Box</small>
+        </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-6 col-md-offset-3">
-
-      </div>
-    </div>
-  </foooter>
+  </footer>
 </body>
 </html>
