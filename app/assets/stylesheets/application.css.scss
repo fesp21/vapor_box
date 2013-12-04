@@ -29,5 +29,47 @@ $font-family-sans-serif: 'Open Sans', Verdana, Helvetica, sans-serif;
 }
 
 #footer {
-  height: 300px;
+  background-color: #687CA5;
+  padding-top: 50px;
+  a {
+    display: inline-block;
+    padding: 10px;
+    &:hover {
+      background: none;
+    }
+  }
+
+  .social-nav {
+    margin: 20px 0;
+    a {
+      color: #1D1D1D;
+      .fa-facebook:hover {
+        color: #1B3C80;
+      }
+      .fa-twitter:hover {
+        color: #00B0ED;
+      }
+      .fa-google-plus:hover {
+        color: #DF4A32;
+      }
+    }
+  }
+  .footer-nav {
+    margin: 20px 0;
+    a {
+      text-transform: uppercase;
+      font-size: 1.1em;
+      color: #DFDFDF;
+      &:hover {
+        color: #fafafa;
+      }
+    }
+  }
+  #copyright {
+    background-color: #405379;
+    height: 30px;
+    line-height: 30px;
+    font-size: 15px;
+    color: #DFDFDF;
+  }
 }
