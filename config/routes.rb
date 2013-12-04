@@ -9,7 +9,7 @@ Myapp::Application.routes.draw do
 
   get '/about', to: 'static_pages#about'
   get '/how_it_works', to: 'static_pages#how_it_works'
-  get '/signup', to: 'static_pages#how_it_works'
+  get '/signup', to: 'static_pages#signup'
   get "static_pages/home"
   
 
