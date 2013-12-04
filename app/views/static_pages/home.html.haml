@@ -1,13 +1,15 @@
+- content_for :stylesheets do 
+  = stylesheet_link_tag 'locals/home' 
+
 .row
   .col-md-12
-    .banner
-      .container
-        .main-text.text-center
-          %h1
-            Never Worry About E-cig Accessories Again
-          %h4
-            VaporBox delivers e-cigarette juices and supplies to your door every month. Build a personalized subscription plan that fits your setup.
-.row
+    .container
+      .main-text.text-center
+        %h1
+          Never Worry About E-cig Accessories Again
+        %h4
+          VaporBox delivers e-cigarette juices and supplies to your door every month. Build a personalized subscription plan that fits your setup.
+.row.features-section
   .container.features-block
     .col-md-4
       .feature.text-center
@@ -30,4 +32,7 @@
           Consistent Delivery
         %p
           Your e-juice and supplies will be delivered to you on the 1st of every month. Never worry about running out again.
-          
+#testimonial
+  .row
+    .container
+      .col-md-12

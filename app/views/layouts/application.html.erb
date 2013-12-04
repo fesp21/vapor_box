@@ -11,6 +11,7 @@
 
 </head>
 <body>
+  <div class='banner'></div>
   <div id="spinner"></div>
 
   <div class="navbar navbar-default navbar-static-top" role="navigation">
@@ -27,8 +28,8 @@
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
           <li class="active"><a href="/">Home</a></li>
-          <li><a href="/about">About</a></li>
           <li><a href="/how_it_works">How It Works</a></li>
+          <li><a href="/about">About</a></li>
           <li><a href="/signup">Get Vapor Box</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
@@ -49,6 +50,7 @@
   <% flash.each do |name, msg| %>
     <%= content_tag :div, msg, id: "flash_#{name}" %>
   <% end %>
+
   <div id="main-content">
       <%= yield %>
   </div>
@@ -57,6 +59,9 @@
       <div class="col-md-12">
         <div class="container">
           <div class="logo text-center">Vapor Box</div>
+          <div class='footer-description text-center'>
+            Build a personalized subscription plan for your vaping juices and supplies.
+          </div>
           <div class="social-nav text-center">
             <%= link_to  '' do %>
               <i class="fa fa-facebook fa-3x"></i>
