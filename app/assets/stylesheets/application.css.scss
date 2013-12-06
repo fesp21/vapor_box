@@ -13,6 +13,7 @@
  */
 
 @import url(http://fonts.googleapis.com/css?family=Open+Sans);
+@import url(http://fonts.googleapis.com/css?family=Montserrat:400,700);
 
 $navbar-default-bg: #FFF;
 $font-family-sans-serif: 'Open Sans', Verdana, Helvetica, sans-serif;
@@ -34,7 +35,21 @@ a, .fa {
   -o-transition: all .2s linear;
   transition: all .2s linear;
 }
+
+.logo {
+  font-family: 'Montserrat', sans-serif;
+  text-transform: uppercase;
+}
+
 .navbar {
+  
+
+  .navbar-brand {
+    color: #687CA5;
+    font-size: 1.5em;
+
+  }
+
 
   
 }
@@ -50,7 +65,11 @@ a, .fa {
       background: none;
     }
   }
-
+  
+  .logo {
+    font-size: 2em;
+    margin: 10px 0;
+  }
   .social-nav {
     margin: 20px 0;
     a {
@@ -80,9 +99,12 @@ a, .fa {
   }
   #copyright {
     background-color: #405379;
-    height: 45px;
     line-height: 45px;
     font-size: 15px;
     color: #DFDFDF;
+    .disclaimer {
+      line-height: 20px;
+      text-align: left;
+    }
   }
 }

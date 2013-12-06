@@ -23,11 +23,10 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="/">Vapor Box</a>
+        <a class="navbar-brand logo" href="/">Vapor Box</a>
       </div>
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="/">Home</a></li>
           <li><a href="/how_it_works">How It Works</a></li>
           <li><a href="/about">About</a></li>
           <li><a href="/signup">Get Vapor Box</a></li>
@@ -38,8 +37,8 @@
             <li><%= link_to 'Edit profile', edit_user_registration_path %></li>
             <li><%= link_to "Logout", destroy_user_session_path, method: :delete %></li>
           <% else %>
-            <li><%= link_to "Sign up", new_user_registration_path %></li>
             <li><%= link_to "Login", new_user_session_path %></li>
+            <li><%= link_to "Sign Up", new_user_registration_path, :class => 'signup_button' %></li>
           <% end %>
         </ul>
       </div>
@@ -86,7 +85,17 @@
       <div class="col-md-12">
           <div id='copyright' class='text-center'>
             <small>Copyright © 2013 Vapor Box</small>
+
+          <div class='container disclaimer'>
+            <small>This product is intended for use for those who are 18 and older.</small>
+            <br>
+            <small>
+            WARNING: Products included in Vapor Box contain nicotine, a poisonous and addictive substance. Products and accessories included in Vapor Box are only intended for committed smokers of legal smoking age and not by non-smokers, children, women who are pregnant or may become pregnant or any person with an elevated risk of, or preexisting condition of, any medical condition which includes, but is not limited to, heart disease, diabetes, high blood pressure or asthma. If you experience any side effects or possible side effects, stop using the product immediately and consult a physician. Products included in Vapor Box may be poisonous if orally ingested. Products included in Vapor Box are not smoking cessation products and have not been tested or guaranteed as such. Products included in Vapor Box have not been evaluated by the Food and Drug Administration nor is it intended to treat, prevent or cure any disease or condition. For their protection, please keep out of reach of children and pets.</small>
+            <br>
+            <small>CALIFORNIA PROPOSITION 65 - WARNING: This product contains nicotine, a chemical known to the state of California to cause birth defects or other reproductive harm.</small>
         </div>
+        </div>
+
       </div>
     </div>
   </footer>
