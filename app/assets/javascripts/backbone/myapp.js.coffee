@@ -13,17 +13,37 @@ window.Myapp =
 jQuery ->
   Myapp = Myapp or {};
 
-  Myapp.Product = Backbone.Model.extend
+  Myapp.product = Backbone.Model.extend
     defaults: 
       productName: 'Unknown Product'
       quantity: 0
       
-  Myapp.Products = Backbone.Collection.extend
-      model: Myapp.Product
+  Myapp.products = Backbone.Collection.extend
+      model: Myapp.product
 
+  Myapp.plan = Backbone.Model.extend
+    defaults: 
+      planName: 'Unknown Plan'
+      
+  Myapp.plans = Backbone.Collection.extend
+      model: Myapp.plan
 
-  Myapp.ProductView = Backbone.View.extend
-      el: '#container'
+  Myapp.planView = Backbone.View.extend
+      el: '#step-1 .steps-content'
+      tagName: 'div'
+      className: 'productContainer'
+      events:
+        'click .delete' : 'renderForm'
+      template: JST['backbone/templates/planTemplate']
+      renderForm: -> 
+        view2 = new Myapp.formView
+        view2.render()
+      render: -> 
+          @.$el.html( @.template( @.model.toJSON() ) );
+          return @
+
+  Myapp.productView = Backbone.View.extend
+      el: '#step-2 .steps-content'
       tagName: 'div'
       className: 'productContainer'
       events:
@@ -37,7 +57,7 @@ jQuery ->
           return @
 
   Myapp.formView = Backbone.View.extend
-      el: '#container'
+      el: '#step-3 .steps-content'
       tagName: 'div'
       className: 'formContainer'
       template: JST['backbone/templates/form']
@@ -45,6 +65,6 @@ jQuery ->
           @.$el.html( @.template() );
           return @
 
-  product = new Myapp.Product
-  test = new Myapp.ProductView(model: product)
+  product = new Myapp.product
+  test = new Myapp.productView(model: product)
   test.render()
