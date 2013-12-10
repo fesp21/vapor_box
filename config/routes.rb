@@ -1,5 +1,5 @@
 Myapp::Application.routes.draw do
-  # resources :items
+  resources :items
 
 
   # resources :addresses
