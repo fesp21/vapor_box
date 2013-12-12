@@ -11,7 +11,21 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131208092656) do
+ActiveRecord::Schema.define(:version => 20131210225151) do
+
+  create_table "accesories_subscriptions", :id => false, :force => true do |t|
+    t.integer "accesory_id"
+    t.integer "subscription_id"
+    t.integer "quantity"
+  end
+
+  create_table "accessories", :force => true do |t|
+    t.string   "name"
+    t.decimal  "cost",       :precision => 8, :scale => 2
+    t.string   "image"
+    t.datetime "created_at",                               :null => false
+    t.datetime "updated_at",                               :null => false
+  end
 
   create_table "addresses", :force => true do |t|
     t.string   "address"
@@ -28,18 +42,32 @@ ActiveRecord::Schema.define(:version => 20131208092656) do
   add_index "addresses", ["subscription_id"], :name => "index_addresses_on_subscription_id"
   add_index "addresses", ["user_id"], :name => "index_addresses_on_user_id"
 
-  create_table "items", :force => true do |t|
+  create_table "flavors", :force => true do |t|
     t.string   "name"
     t.string   "level"
-    t.string   "type"
+    t.string   "image"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "flavors_subscriptions", :id => false, :force => true do |t|
+    t.integer "flavor_id"
+    t.integer "subscription_id"
+    t.integer "quantity"
+  end
+
+  create_table "plans", :force => true do |t|
+    t.string   "name"
     t.decimal  "cost",       :precision => 8, :scale => 2
+    t.string   "image"
     t.datetime "created_at",                               :null => false
     t.datetime "updated_at",                               :null => false
   end
 
-  create_table "items_subscriptions", :id => false, :force => true do |t|
-    t.integer "item_id"
+  create_table "plans_subscriptions", :id => false, :force => true do |t|
+    t.integer "plan_id"
     t.integer "subscription_id"
+    t.integer "quantity"
   end
 
   create_table "subscriptions", :force => true do |t|

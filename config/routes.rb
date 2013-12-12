@@ -1,5 +1,11 @@
 Myapp::Application.routes.draw do
-  resources :items
+  resources :plans
+
+
+  resources :accessories
+
+
+  resources :flavors
 
 
   # resources :addresses
