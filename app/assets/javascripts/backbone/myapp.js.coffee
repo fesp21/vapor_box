@@ -70,7 +70,7 @@ jQuery ->
         @.template = JST[options.templatePath]
 
       stepsList: 
-        steps: ['plans','flavors','accessories', 'forms']
+        steps: ['plans','flavors','accessories']
       tagName: 'div'
       className: 'planContainer'
       events:
@@ -92,6 +92,25 @@ jQuery ->
       tagName: 'div'
       className: 'formContainer'
       template: JST['backbone/templates/form']
+      events:
+        'click .continue' : 'nextForm'
+      nextForm: ->
+        test = new Myapp.Views.checkoutView()
+        test.render()
+      render: -> 
+          @.$el.html( @.template() );
+          return @
+
+  Myapp.Views.checkoutView = Backbone.View.extend
+      el: '#step-5 .steps-content'
+      tagName: 'div'
+      className: 'formContainer'
+      template: JST['backbone/templates/checkout']
+      events:
+        'click .continue' : 'nextForm'
+      nextForm: ->
+        test = new Myapp.Views.checkoutView()
+        test.render()
       render: -> 
           @.$el.html( @.template() );
           return @
