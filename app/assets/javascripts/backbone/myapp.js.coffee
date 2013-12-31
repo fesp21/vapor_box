@@ -59,8 +59,26 @@ jQuery ->
     template: JST['backbone/templates/itemTemplate']
     render: ->
       @$el.html @template(item: @model)
+    events:
+      'click' : 'addToCart'
+    addToCart: ->
+      debugger
+      newItemCart = new Myapp.Views.ItemCartView(model: @.model)
+      window.cart.add(@.model)
+      newItemCart.render()
+      
 
   Myapp.Views.StepView = Backbone.View.extend
+    initialize: (options) ->
+      @.options = options
+      if @collection
+        @collection.bind('reset', @render , @ )
+      else
+        @template = options.template
+
+      return @
+    template: JST['backbone/templates/stepsTemplate']
+
     el: '.steps-content'
     stepsList: 
       steps: ['plans','flavors','accessories', 'form', 'checkout']
@@ -88,14 +106,7 @@ jQuery ->
         currentStep = currentStep - 1
         test.renderForm()
 
-    initialize: (options) ->
-      @.options = options
-      if @collection
-        @collection.bind('reset', @render , @ )
-      else
-        @template = options.template
-      return @
-    template: JST['backbone/templates/stepsTemplate']
+
     render: ->
       @.$el.html( @.template(currentStep: currentStep) )
       @collection.each ((item) ->
@@ -105,78 +116,20 @@ jQuery ->
       $('#step-' + (currentStep)).after(@.$el)
       return @
     renderForm: ->
-      debugger
       @.$el.html( @.template( currentStep: currentStep) )
       $('#step-' + (currentStep)).after(@.$el)
 
+  Myapp.Views.ItemCartView = Backbone.View.extend
+    className: 'steps-item'
+    tagName: 'div'
+    template: JST['backbone/templates/itemCartTemplate']
+    typeList:
+      type: ['plan','flavor','accessory']
+    render: ->
+      @.$el.html(@template(item: @model))
+      debugger
+      $('#step-' + (@.typeList.type.indexOf(@model.get('type'))+1) + " .steps-header .items-container").append(@.$el)
 
-  # Myapp.Views.itemListView = Backbone.View.extend
-  #     initialize: (options) ->
-  #       @collection.bind('reset', @render , @ )
-  #       @.template = JST[options.templatePath]
-  #     el: '.steps-content'
-  #     stepsList: 
-  #       steps: ['plans','flavors','accessories', 'form', 'stripe']
-  #     tagName: 'div'
-  #     events:
-  #       'click .continue' : 'nextStep'
-  #       'click .form-continue' : 'nextForm'
-  #       'click .back' : 'backStep'
-  #     backStep: ->
-  #       if (window[@.stepsList.steps[@.options.currentStep-2]])
-  #         window[@.stepsList.steps[@.options.currentStep-2]].fetch({reset: true})
-  #         test = new Myapp.Views.itemListView(collection: window[@.stepsList.steps[@.options.currentStep-2]], templatePath: 'backbone/templates/'+@.stepsList.steps[@.options.currentStep-2]+'Template', currentStep: @.options.currentStep-1)
-  #     nextStep: ->
-  #       if (window[@.stepsList.steps[@.options.currentStep]])
-  #         window[@.stepsList.steps[@.options.currentStep]].fetch({reset: true})
-  #         test = new Myapp.Views.itemListView(collection: window[@.stepsList.steps[@.options.currentStep]], templatePath: 'backbone/templates/'+@.stepsList.steps[@.options.currentStep]+'Template', currentStep: @.options.currentStep+1)
-  #     # nextForm: ->
-  #     #   test = new Myapp.Views.formView()
-  #     #   test.render()
-  #     renderForm: ->
-  #       @.$el.html( @.template() )
-  #       $('#step-' + (@.options.currentStep)).after(@.$el)
-  #       return @
-  #     render: ->
-  #       @.$el.html( @.template( collection: @.collection.toJSON() ) )
-  #       $('#step-' + (@.options.currentStep)).after(@.$el)
-  #       return @
-
-  # Myapp.Views.formView = Backbone.View.extend
-  #     el: '.steps-content'
-  #     tagName: 'div'
-  #     template: JST['backbone/templates/form']
-  #     events:
-  #       'click .form-continue' : 'nextForm'
-  #       'click .back' : 'backForm'
-  #     backForm: ->
-  #       window['accessories'].fetch({reset: true})
-  #       test = new Myapp.Views.itemListView(collection: window['accessories'], templatePath: 'backbone/templates/accessoriesTemplate', currentStep: 3)
-  #     nextForm: ->
-  #       test = new Myapp.Views.checkoutView()
-  #       test.render()
-  #     render: -> 
-  #       @.$el.html( @.template() );
-  #       $('#step-4').after(@.$el)
-  #       return @
-
-  # Myapp.Views.checkoutView = Backbone.View.extend
-  #     el: '.steps-content'
-  #     tagName: 'div'
-  #     template: JST['backbone/templates/checkout']
-  #     events:
-  #       'click .form-continue' : 'nextForm'
-  #       'click .back-form' : 'backForm'
-  #     backForm: ->
-  #       test = new Myapp.Views.formView()
-  #       test.render()
-  #     nextForm: ->
-  #       test = new Myapp.Views.checkoutView()
-  #       test.render()
-  #     render: -> 
-  #         @.$el.html( @.template() );
-  #         $('#step-5').after(@.$el)
-  #         return @
 
 
   window.plans = new Myapp.Collections.Plans()
@@ -184,5 +137,6 @@ jQuery ->
   window.flavors = new Myapp.Collections.Flavors()
   plans.fetch()
   test = new Myapp.Views.StepView(collection: plans)
+  window.cart = new Myapp.Collections.ShoppingCart()
 
 

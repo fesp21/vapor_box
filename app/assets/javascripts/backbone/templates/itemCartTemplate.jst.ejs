@@ -1,0 +1,20 @@
+<div class='cart-header item-description'>
+  <%= item.get('name') %>
+</div>
+<% if (item.get('type') != 'flavor') { %>
+<div class='cart-header item-time'>
+  <% if (item.get('type') == 'plan') { %>
+    Monthly
+  <% } else if (item.get('type') == 'accessory') { %>
+    Once
+  <% } %>
+</div>
+<% } %>
+<% if (item.get('type') != 'flavor') { %>
+<div class='cart-header item-price'>
+  <%= item.get('cost') %>
+</div>
+<% } %>
+<div class='cart-header item-close'>
+  <i class='fa fa-times'></i>
+</div>

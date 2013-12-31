@@ -85,5 +85,14 @@
   .steps-wrapper {
     border: 1px solid #000;
   }
+  .steps-item {
+    display: inline-block;
+  }
+  .cart-header {
+    float: right;
+  }
+  .single-item-cart {
+    display:block;
+  }
 }
 
