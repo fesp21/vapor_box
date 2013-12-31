@@ -1,4 +1,4 @@
-<form accept-charset="UTF-8" action="/" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"><input name="authenticity_token" type="hidden" value="F4akS//Uyog55cwypfB29/1RMBDNRRde/atDuuFoSLA="></div>
+<form accept-charset="UTF-8" >
   <div class="field">
     <label for="email">Email</label>
     <input id="email" name="email" type="email">
@@ -8,16 +8,29 @@
     <input id="password" name="password" type="password">
   </div>
   <div class="field">
-    <label for="address">Address</label>
-    <input id="address" name="address" type="text">
+    <label for="password_confirmation">Confirm Password</label>
+    <input id="password_confirmation" name="password_confirmation" type="password">
+  </div>
+  <h3>Shipping Address</h3>
+  <div class="field">
+    <label for="ship_address1">Address Line 1</label>
+    <input id="ship_address1" name="ship_address1" type="text">
   </div>
   <div class="field">
-    <label for="city">City</label>
-    <input id="city" name="city" type="text">
+    <label for="ship_address2">Address Line 2</label>
+    <input id="ship_address2" name="ship_address2" type="text">
   </div>
   <div class="field">
-    <label for="zip">Zip</label>
-    <input id="zip" name="zip" type="text">
+    <label for="ship_city">City</label>
+    <input id="ship_city" name="ship_city" type="text">
+  </div>
+  <div class="field">
+    <label for="ship_state">State</label>
+    <input id="ship_state" name="ship_state" size="2" type="text">      
+  </div>
+  <div class="field">
+    <label for="ship_zip">Zip</label>
+    <input id="ship_zip" name="ship_zip" type="text">
   </div>
 </form>
 <button class="back">Back</button>

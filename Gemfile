@@ -29,6 +29,7 @@ gem "haml", "~> 4.0.4"
 gem 'jquery-rails'
 gem 'jquery-rails'
 gem "rails-backbone"
+gem 'stripe'
 gem 'mysql2'
 
 
