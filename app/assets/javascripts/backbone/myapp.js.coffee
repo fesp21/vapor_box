@@ -131,6 +131,14 @@ jQuery ->
       $('#step-' + (@.typeList.type.indexOf(@model.get('type'))+1) + " .steps-header .items-container").append(@.$el)
 
 
+  # Myapp.Views.ShoppingCartView = Backbone.View.extend
+  #   initialize:
+      # something about binding add to item cart view, then remove the render shit
+      # calculating totla price on add or remove as well
+      # bind remove
+      # renderCart
+      # probably move the itemcartview render to here too and typelist
+
 
   window.plans = new Myapp.Collections.Plans()
   window.accessories = new Myapp.Collections.Accessories()
@@ -138,5 +146,6 @@ jQuery ->
   plans.fetch()
   test = new Myapp.Views.StepView(collection: plans)
   window.cart = new Myapp.Collections.ShoppingCart()
+  shoppingCartView = new Myapp.Views.ShoppingCartView(window.cart)
 
 
