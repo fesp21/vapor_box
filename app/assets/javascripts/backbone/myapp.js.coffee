@@ -26,6 +26,10 @@ jQuery ->
       name: 'Unknown Product'
       image: ''
       type: 'flavor'
+    idAttribute: 'uniqueId'
+    parse: (response) ->
+      response.uniqueId = 'flavor_'+response.id
+      return response
 
   Myapp.Collections.Flavors = Backbone.Collection.extend
     model: Myapp.Models.Flavor
@@ -36,6 +40,11 @@ jQuery ->
       name: 'Unknown Product'
       cost: 0
       type: 'plan'
+    idAttribute: 'uniqueId'
+    parse: (response) ->
+      debugger
+      response.uniqueId = 'plan_'+response.id
+      return response
 
   Myapp.Collections.Plans = Backbone.Collection.extend
     model: Myapp.Models.Plan
@@ -47,6 +56,10 @@ jQuery ->
       cost: 0
       image: ''
       type: 'accessory'
+    idAttribute: 'uniqueId'
+    parse: (response) ->
+      response.uniqueId = 'accessory_'+response.id
+      return response
 
   Myapp.Collections.Accessories = Backbone.Collection.extend
     model: Myapp.Models.Accessory
@@ -62,10 +75,7 @@ jQuery ->
     events:
       'click' : 'addToCart'
     addToCart: ->
-      debugger
-      newItemCart = new Myapp.Views.ItemCartView(model: @.model)
-      window.cart.add(@.model)
-      newItemCart.render()
+      window.cart.add(@.model,{unique: false})
       
 
   Myapp.Views.StepView = Backbone.View.extend
@@ -75,7 +85,6 @@ jQuery ->
         @collection.bind('reset', @render , @ )
       else
         @template = options.template
-
       return @
     template: JST['backbone/templates/stepsTemplate']
 
@@ -123,29 +132,40 @@ jQuery ->
     className: 'steps-item'
     tagName: 'div'
     template: JST['backbone/templates/itemCartTemplate']
+    render: ->
+      @.$el.html(@template(item: @model))
+      
+
+
+  Myapp.Views.ShoppingCartView = Backbone.View.extend
+    initialize: ->
+      @collection.bind('change', @render , @ )
     typeList:
       type: ['plan','flavor','accessory']
     render: ->
-      @.$el.html(@template(item: @model))
       debugger
-      $('#step-' + (@.typeList.type.indexOf(@model.get('type'))+1) + " .steps-header .items-container").append(@.$el)
+      # each model
+      # newItemCart = new Myapp.Views.ItemCartView(model: @.model)
+      # $('#step-' + (@.typeList.type.indexOf(@model.get('type'))+1) + " .steps-header .items-container").html(@.$el)
 
 
-  # Myapp.Views.ShoppingCartView = Backbone.View.extend
-  #   initialize:
+
       # something about binding add to item cart view, then remove the render shit
       # calculating totla price on add or remove as well
       # bind remove
       # renderCart
       # probably move the itemcartview render to here too and typelist
-
+  
 
   window.plans = new Myapp.Collections.Plans()
   window.accessories = new Myapp.Collections.Accessories()
   window.flavors = new Myapp.Collections.Flavors()
+  window.cart = new Myapp.Collections.ShoppingCart()
   plans.fetch()
   test = new Myapp.Views.StepView(collection: plans)
-  window.cart = new Myapp.Collections.ShoppingCart()
-  shoppingCartView = new Myapp.Views.ShoppingCartView(window.cart)
+  debugger
+  shoppingCartView = new Myapp.Views.ShoppingCartView(collection: window.cart)
+  
+  
 
 
