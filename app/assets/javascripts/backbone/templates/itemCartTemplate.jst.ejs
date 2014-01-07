@@ -1,18 +1,23 @@
 <div class='cart-header item-description'>
   <%= item.get('name') %>
 </div>
+<% if (item.get('type') != 'plan') { %>
+<div class='cart-header item-quantity'>
+  (x<%= item.get('quantity') %>)
+</div>
+<% } %>
+<% if (item.get('type') != 'flavor') { %>
+<div class='cart-header item-price'>
+  $<%= item.get('cost') %>
+</div>
+<% } %>
 <% if (item.get('type') != 'flavor') { %>
 <div class='cart-header item-time'>
   <% if (item.get('type') == 'plan') { %>
     Monthly
   <% } else if (item.get('type') == 'accessory') { %>
-    Once
+    One-time
   <% } %>
-</div>
-<% } %>
-<% if (item.get('type') != 'flavor') { %>
-<div class='cart-header item-price'>
-  <%= item.get('cost') %>
 </div>
 <% } %>
 <% if (item.get('type') != 'plan') { %>
