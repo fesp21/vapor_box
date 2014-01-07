@@ -25,34 +25,36 @@
       <input type="text" size="4" data-stripe="exp-year"/>
     </div>
   </div>
-  <div class="form-row">
-    <input type="checkbox" name="billaddress" value="true" checked>Same as Billing Address
+  <div class="form-row extra-margin-top">
+    <input type="checkbox" id="bill-address-check" name="bill-address-check" value="true" checked>Same as Billing Address
   </div>
-  <div class='billing-address hidden'>
-    <h3>Billing Address</h3>
+  <div id='billing-address-form'>
+    <h4>Billing Address</h4>
     <div class="field">
       <label for="address1">Address Line 1</label>
-      <input id="address1" name="address1" type="text">
+      <input id="address1" name="address1" size="70" type="text">
     </div>
     <div class="field">
       <label for="address2">Address Line 2</label>
-      <input id="address2" name="address2" type="text">
+      <input id="address2" name="address2" size="70" type="text">
     </div>
-    <div class="field">
+    <br>
+    <div class="field inline no-margin">
       <label for="city">City</label>
       <input id="city" name="city" type="text">
     </div>
-    <div class="field">
+    <div class="field inline">
       <label for="state">State</label>
       <input id="state" name="state" size="2" type="text">
     </div>
-    <div class="field">
+    <div class="field inline">
       <label for="zip">Zip</label>
       <input id="zip" name="zip" type="text">
     </div>
   </div>
 
 </form>
+<div class='step-actions'>
   <button class="back">Back</button>
   <button class="continue">Submit</button>  
-
+</div>

@@ -1,37 +1,48 @@
 <form accept-charset="UTF-8" >
+  <h4>Shipping Address</h4>
+  <div class="field inline no-margin">
+    <label for="first-name">First Name</label>
+    <input id="first-name" size="32" name="first-name" type="text">
+  </div>
+  <div class="field inline">
+    <label for="last-name">Last Name</label>
+    <input id="last-name" size="32" name="last-name" type="text">
+  </div>
+  <div class="field">
+    <label for="ship-address1">Address Line 1</label>
+    <input id="ship-address1" size="70" name="ship-address1" type="text">
+  </div>
+  <div class="field">
+    <label for="ship-address2">Address Line 2</label>
+    <input id="ship-address2"  size="70" name="ship-address2" type="text">
+  </div>
+  <div class="field inline no-margin">
+    <label for="ship-city">City</label>
+    <input id="ship-city" size="25" name="ship-city" type="text">
+  </div>
+  <div class="field inline">
+    <label for="ship-state">State</label>
+    <input id="ship-state" name="ship-state" size="2" type="text">      
+  </div>
+  <div class="field inline">
+    <label for="ship-zip">Zip</label>
+    <input id="ship-zip" name="ship-zip" type="text">
+  </div>
+  <h4>Create Account</h4>
   <div class="field">
     <label for="email">Email</label>
-    <input id="email" name="email" type="email">
+    <input id="email" size="32" name="email" type="email">
   </div>
   <div class="field">
     <label for="password">Password</label>
-    <input id="password" name="password" type="password">
+    <input id="password" size="32" name="password" type="password">
   </div>
   <div class="field">
-    <label for="password_confirmation">Confirm Password</label>
-    <input id="password_confirmation" name="password_confirmation" type="password">
-  </div>
-  <h3>Shipping Address</h3>
-  <div class="field">
-    <label for="ship_address1">Address Line 1</label>
-    <input id="ship_address1" name="ship_address1" type="text">
-  </div>
-  <div class="field">
-    <label for="ship_address2">Address Line 2</label>
-    <input id="ship_address2" name="ship_address2" type="text">
-  </div>
-  <div class="field">
-    <label for="ship_city">City</label>
-    <input id="ship_city" name="ship_city" type="text">
-  </div>
-  <div class="field">
-    <label for="ship_state">State</label>
-    <input id="ship_state" name="ship_state" size="2" type="text">      
-  </div>
-  <div class="field">
-    <label for="ship_zip">Zip</label>
-    <input id="ship_zip" name="ship_zip" type="text">
+    <label for="password-confirmation">Confirm Password</label>
+    <input id="password-confirmation" size="32" name="password-confirmation" type="password">
   </div>
 </form>
+<div class='step-actions'>
 <button class="back">Back</button>
 <button class="continue">Continue</button>
+</div>

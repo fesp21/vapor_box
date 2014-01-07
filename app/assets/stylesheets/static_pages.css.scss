@@ -90,6 +90,14 @@
   }
   .steps-content {
     padding-left: 20px;
+    .step-actions {
+      text-align: center;
+      width: 300px;
+      margin: 0 auto;
+      button {
+        margin: 0 10px;
+      }
+    }
     .products-container {
       list-style-type: none;
       padding-left: 0;
@@ -135,6 +143,18 @@
   .single-item-cart {
     display:block;
   }
+  .form-row {
+    margin-top: 5px;
+    #bill-address-check {
+      margin-right: 5px;
+    }
+    &.extra-margin-top {
+      margin-top: 15px;
+    }
+  }
+  #billing-address-form {
+    display: none;
+  }
   .field {
     margin-top: 5px;
     label {
@@ -142,6 +162,13 @@
     }
     input {
       display: block;
+    }
+    &.inline {
+      display: inline-block;
+      margin-left: 15px;
+      &.no-margin {
+        margin-left: 0px;
+      }
     }
   }
 }

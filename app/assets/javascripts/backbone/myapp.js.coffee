@@ -34,7 +34,9 @@ jQuery ->
           else
             subtotal = subtotal + parseInt(item.get('cost'))
       )
+      #define shipping based on plan
       shipping = 0
+
       $('#shipping-cost').html("Shipping: $" + shipping.toFixed(2))
       $('#subtotal-price').html("Subtotal: $" + subtotal.toFixed(2))
 
@@ -51,6 +53,11 @@ jQuery ->
   Myapp.Collections.Flavors = Backbone.Collection.extend
     model: Myapp.Models.Flavor
     url: '/flavors'
+    byLevel: (level) ->
+      filtered = @.filter((item) ->
+        item.get('level') is level
+      )
+      return new Myapp.Collections.Flavors(filtered)
 
   Myapp.Models.Plan = Myapp.Models.ItemModel.extend
     defaults: 
@@ -122,6 +129,14 @@ jQuery ->
     events:
       'click .continue' : 'nextStep'
       'click .back' : 'backStep'
+      'click #bill-address-check' : 'toggleBilling'
+      'change #flavor-level-select' : 'render'
+    toggleBilling: ->
+      if document.getElementById('bill-address-check')
+        if document.getElementById('bill-address-check').checked
+          $('#billing-address-form').slideUp()
+        else
+          $('#billing-address-form').slideDown()
     nextStep: ->
       @.undelegateEvents()
       if window[@.stepsList.steps[currentStep]]
@@ -145,10 +160,19 @@ jQuery ->
 
 
     render: ->
+
       @.$el.html( @.template(currentStep: currentStep) )
-      @collection.each ((item) ->
-        @$(".products-container").append new Myapp.Views.ItemView(model: item).render()
-      ), this
+      if currentStep is 2
+        levelSelected = event.target.value
+        $("#flavor-level-select option[value='" + levelSelected + "']").attr("selected", "selected")
+        @filtered = @collection.byLevel(levelSelected)
+        @filtered.each ((item) ->
+          @$(".products-container").append new Myapp.Views.ItemView(model: item).render()
+        ), this
+      else
+        @collection.each ((item) ->
+          @$(".products-container").append new Myapp.Views.ItemView(model: item).render()
+        ), this
 
       $('#step-' + (currentStep)).after(@.$el)
       return @
