@@ -1,14 +1,14 @@
 <form id="payment-form">
   <span class="payment-errors"></span>
 
-  <div class="form-row">
+  <div class="field">
     <label>
       <span>Card Number</span>
       <input type="text" size="20" data-stripe="number"/>
     </label>
   </div>
 
-  <div class="form-row">
+  <div class="field">
     <label>
       <span>CVC</span>
       <input type="text" size="4" data-stripe="cvc"/>
@@ -17,11 +17,13 @@
 
   <div class="form-row">
     <label>
-      <span>Expiration (MM/YYYY)</span>
-      <input type="text" size="2" data-stripe="exp-month"/>
+      Expiration (MM/YYYY)
     </label>
-    <span> / </span>
-    <input type="text" size="4" data-stripe="exp-year"/>
+    <div>
+      <input type="text" size="2" data-stripe="exp-month"/>
+      <span>/</span>
+      <input type="text" size="4" data-stripe="exp-year"/>
+    </div>
   </div>
   <div class="form-row">
     <input type="checkbox" name="billaddress" value="true" checked>Same as Billing Address
@@ -52,5 +54,5 @@
 
 </form>
   <button class="back">Back</button>
-  <button class="continue">Submit</button>
+  <button class="continue">Submit</button>  
 
