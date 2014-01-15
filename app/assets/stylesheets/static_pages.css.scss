@@ -104,6 +104,8 @@
       .single-item {
         display: inline-block;
         margin: 0 35px;
+        height: 100px;
+        vertical-align: top;
         &:nth-child(1) {
           margin-left: 0;
         }
@@ -139,7 +141,10 @@
       cursor: pointer;
     }
   }
-
+  #flavor-level-select {
+    margin-left: 10px;
+    margin-bottom: 20px;
+  }
   .single-item-cart {
     display:block;
   }
@@ -152,7 +157,11 @@
       margin-top: 15px;
     }
   }
-  #billing-address-form {
+  #errors {
+    color: red;
+    margin: 20px 0;
+  }
+  #ship-address-form {
     display: none;
   }
   .field {
