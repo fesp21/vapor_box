@@ -144,14 +144,8 @@ jQuery ->
   Myapp.Views.StepView = Backbone.View.extend
     initialize: (options) ->
       @.options = options
-      if @collection
-        @collection.bind('reset', @render , @ )
-      else
-        @template = options.template
-        if currentStep is 3
-          @initializeShippingForm()
-        if currentStep is 4
-          @initializeCheckoutForm()
+      @options.collectionA.bind('reset', @render , @ )
+    
       return @
     template: JST['backbone/templates/stepsTemplate']
     initializeShippingForm: ->
@@ -188,15 +182,13 @@ jQuery ->
       email: @.emailField.val()
       password: @.passwordField.val()
       passwordConfirmation: @.passwordConfirmationField.val()
-
-
-
     initializeCheckoutForm: ->
       @.form = @.$el.find('form');
 
     el: '.steps-content'
     stepsList: 
       steps: ['plans','flavors','accessories', 'form', 'checkout']
+      stepsSingular: ['plan','flavor','accessory']
     events:
       'click #process-registration' : 'processRegistration'
       'click .continue' : 'nextStep'
@@ -252,46 +244,54 @@ jQuery ->
         _.each errors, (error) ->
           $('#errors').append error
         return @
-      @.undelegateEvents()
-      if window[@.stepsList.steps[currentStep]]
-        window[@.stepsList.steps[currentStep]].fetch()
-        test = new Myapp.Views.StepView(collection: window[@.stepsList.steps[currentStep]])
-        currentStep = currentStep + 1
-      else
-        test = new Myapp.Views.StepView(template: JST['backbone/templates/'+ this.stepsList.steps[currentStep] + 'Template'])
-        currentStep = currentStep + 1
-        test.renderForm()
-    backStep: ->
-      @.undelegateEvents()
-      if window[@.stepsList.steps[currentStep-2]]
-        window[@.stepsList.steps[currentStep-2]].fetch()
-        test = new Myapp.Views.StepView(collection: window[@.stepsList.steps[currentStep-2]])
-        currentStep = currentStep - 1
-      else
-        test = new Myapp.Views.StepView(template: JST['backbone/templates/'+ this.stepsList.steps[currentStep-2] + 'Template'])
-        currentStep = currentStep - 1
-        test.renderForm()
+      currentStep = currentStep + 1
+      @.render()
+      debugger
+      window.shoppingCartView.render(null, currentStep-1, this.stepsList.stepsSingular[currentStep-2])
+      debugger
 
+    backStep: ->
+      debugger
+      currentStep = currentStep - 1
+      @.render()  
+      window.shoppingCartView.render(null, currentStep+1, this.stepsList.stepsSingular[currentStep])      
 
     render: ->
-      @.$el.html( @.template(currentStep: currentStep) )
-      if currentStep is 2
-        levelSelected = event.target.value or '0'
-        $("#flavor-level-select option[value='" + levelSelected + "']").attr("selected", "selected")
-        @filtered = @collection.byLevel(levelSelected)
-        @filtered.each ((item) ->
-          @$(".products-container").append new Myapp.Views.ItemView(model: item).render()
-        ), this
-      else
-        @collection.each ((item) ->
-          @$(".products-container").append new Myapp.Views.ItemView(model: item).render()
-        ), this
+      if currentStep is 1
+        collection = this.options.collectionA
+        template = @.template
+      else if currentStep is 2
+        collection = this.options.collectionB
+        template = @.template
+      else if currentStep is 3
+        collection = this.options.collectionC
+        template = @.template
+      else if currentStep is 4
+        template = JST['backbone/templates/'+ this.stepsList.steps[currentStep-1] + 'Template']
+      else if currentStep is 5
+        template = JST['backbone/templates/'+ this.stepsList.steps[currentStep-1] + 'Template']
 
+      @.$el.html( template(currentStep: currentStep) )
+      if currentStep is 3
+        @initializeShippingForm()
+      if currentStep is 4
+        @initializeCheckoutForm()
+
+      if collection
+        collection.each ((item) ->
+          @$(".products-container").append new Myapp.Views.ItemView(model: item).render()
+        ), this
+      $('#step-' + (currentStep)).removeClass 'inactive'
+      $('#step-' + (currentStep)).removeClass 'clickable'
+      debugger
+      i = 0
+      while i < currentStep - 1
+        $($(".steps-wrapper")[i]).addClass "clickable"  if i < currentStep - 1
+        $(".steps-wrapper").addClass "inactive"
+        i++
+      $('#step-' + (currentStep)).removeClass 'inactive'
       $('#step-' + (currentStep)).after(@.$el)
       return @
-    renderForm: ->
-      @.$el.html( @.template( currentStep: currentStep) )
-      $('#step-' + (currentStep)).after(@.$el)
 
   Myapp.Views.ItemCartView = Backbone.View.extend
     initialize: ->
@@ -303,7 +303,8 @@ jQuery ->
     events:
       'click .item-close' : 'removeItem'
     removeItem: ->
-
+      if @.$el.closest('.steps-wrapper').data('step') != currentStep
+        return @
       window.cart.remove(@.model)
       @.undelegateEvents()
       @.remove()
@@ -313,7 +314,9 @@ jQuery ->
       #   debugger
 
     render: ->
-      @.$el.html(@template(item: @model))
+      debugger
+      #throw in step from options arleady passed on line 327
+      @.$el.html(@template(item: @model, step: this.options.step))
       
 
 
@@ -323,13 +326,14 @@ jQuery ->
       @collection.bind('add', @render , @ )
     typeList:
       type: ['plan','flavor','accessory']
-    render: (event) ->
-      @.collection.calculateSubtotal()
-      type = event.get('type')
-      step = @.typeList.type.indexOf(type) + 1
+    render: (event, type, step) ->
+      if event
+        @.collection.calculateSubtotal()
+        type = event.get('type')
+        step = @.typeList.type.indexOf(type) + 1
       $('#step-' + step + ' .items-container').empty()
       @collection.byType(type).each ((item) ->
-        $('#step-' + step + ' .items-container').append new Myapp.Views.ItemCartView(model: item).render()
+        $('#step-' + step + ' .items-container').append new Myapp.Views.ItemCartView(model: item, step: step).render()
       ), this
       
       # each model
@@ -344,15 +348,21 @@ jQuery ->
       # renderCart
       # probably move the itemcartview render to here too and typelist
   
+  $(document).on "click", ".steps-wrapper", ->
+    if currentStep > $(this).data("step")
+      currentStep = $(this).data("step")
+      window.test.render()
 
   window.plans = new Myapp.Collections.Plans()
   window.accessories = new Myapp.Collections.Accessories()
   window.flavors = new Myapp.Collections.Flavors()
-  window.cart = new Myapp.Collections.ShoppingCart()
   plans.fetch()
-  test = new Myapp.Views.StepView(collection: plans)
-  shoppingCartView = new Myapp.Views.ShoppingCartView(collection: window.cart)
-  debugger
+  accessories.fetch()
+  flavors.fetch()
+  window.test = new Myapp.Views.StepView(collectionA: plans, collectionB: flavors, collectionC: accessories )
+
+  window.cart = new Myapp.Collections.ShoppingCart()
+  window.shoppingCartView = new Myapp.Views.ShoppingCartView(collection: window.cart)
   
 
   

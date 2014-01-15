@@ -3,30 +3,30 @@
     .col-md-12
       .container
         .steps-container
-          #step-1.steps-wrapper
+          #step-1.steps-wrapper.inactive{:data => {:step => 1}}
             .steps-header
               .step-text
                 Step 1 - Plan
               .items-container
             .steps-content
-          #step-2.steps-wrapper
+          #step-2.steps-wrapper.inactive{:data => {:step => 2}}
             .steps-header
               .step-text
                 Step 2 - Flavors
               .items-container
-          #step-3.steps-wrapper
+          #step-3.steps-wrapper.inactive{:data => {:step => 3}}
             .steps-header
               .step-text
                 Step 3 - Accessories
               .items-container
-          #step-4.steps-wrapper
+          #step-4.steps-wrapper.inactive{:data => {:step => 4}}
             .steps-header
               .step-text
                 Step 4 - Shipping
               .items-container
                 #shipping-cost
                 #subtotal-price
-          #step-5.steps-wrapper
+          #step-5.steps-wrapper.inactive{:data => {:step => 5}}
             .steps-header
               .step-text
                 Step 5 - Finish
