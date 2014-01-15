@@ -13,7 +13,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
-//= require flat-ui
 //= require handlebars.runtime
 //= require_tree .
 //= require underscore
@@ -21,3 +20,4 @@
 //= require backbone_rails_sync
 //= require backbone_datalink
 //= require backbone/myapp
+//= require flat-ui
