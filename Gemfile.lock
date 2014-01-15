@@ -59,6 +59,9 @@ GEM
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
+    flatui-rails (0.0.2)
+      railties (~> 3.1)
+      sass-rails (~> 3.2.0)
     haml (4.0.4)
       tilt
     handlebars_assets (0.14.1)
@@ -160,6 +163,7 @@ DEPENDENCIES
   bootstrap-sass
   coffee-rails (~> 3.2.1)
   devise
+  flatui-rails
   haml (~> 4.0.4)
   handlebars_assets
   jquery-rails

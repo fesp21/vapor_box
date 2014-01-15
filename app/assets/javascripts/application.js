@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
+//= require flat-ui
 //= require handlebars.runtime
 //= require_tree .
 //= require underscore
