@@ -11,12 +11,18 @@ window.Myapp =
   Views: {}
 
 jQuery ->
+  Stripe.setPublishableKey($('meta[name="stripe-key"]').attr('content'))
   currentStep = 1
-  Myapp = window.Myapp or {};
-  
+  Myapp = window.Myapp or {}
+  Myapp.Models.User = Backbone.Model.extend
+  Myapp.Models.UserAddress = Backbone.Model.extend
+
+
+
   Myapp.Models.ItemModel = Backbone.Model.extend
     defaults:
       type: 'Unknown'
+      selected: false
 
   Myapp.Collections.ShoppingCart = Backbone.Collection.extend
     url: '/create_subscription'
@@ -92,24 +98,46 @@ jQuery ->
 
 
   Myapp.Views.ItemView = Backbone.View.extend
+    initialize: ->
+      # bind to changes in shopping cart
+      window.cart.bind('remove', @changeSelected, @)
     className: 'single-item'
     tagName: 'li'
     template: JST['backbone/templates/itemTemplate']
     render: ->
-      debugger
+      if window.cart.where({ uniqueId: this.model.get('uniqueId')}).length
+        this.model.set(selected: true)
       @$el.html @template(item: @model)
+    changeSelected: (event) ->
+      # remove selected buttons
+      if event.id is @.model.id
+        @.model.set(selected: false)
+        @.render()
+      return @
     events:
-      'click' : 'addToCart'
+      'click .plan-image' : 'addToCart'
+      'click .remove-quantity' : 'removeQuantity'
+    removeQuantity: ->
+      quantity = window.cart.get(@.model).get('quantity')
+      if quantity > 1
+        window.cart.get(@.model).set(quantity: quantity-1)
+        return @
+      else
+        window.cart.remove(@.model)
+        return @
     addToCart: ->
+      $('#errors').empty()
       if @.model.get('type') is 'plan'
         window.cart.remove(window.cart.byType('plan').models)
         window.cart.add(@.model)
-      else if window.cart.contains(@.model)
+        @.model.set(selected: true)
+      else if _.pluck(window.cart.models, 'id').indexOf(this.model.id) >= 0
         modelQuantity = window.cart.get(@.model).get('quantity')
         window.cart.get(@.model).set(quantity: modelQuantity+1)
       else
-        @.model.set(quantity: 1)
+        @.model.set(quantity: 1, selected: true)
         window.cart.add(@.model)
+      @.render()
 
       
 
@@ -120,24 +148,110 @@ jQuery ->
         @collection.bind('reset', @render , @ )
       else
         @template = options.template
+        if currentStep is 3
+          @initializeShippingForm()
+        if currentStep is 4
+          @initializeCheckoutForm()
       return @
     template: JST['backbone/templates/stepsTemplate']
+    initializeShippingForm: ->
+      @.form = this.$el.find('form');
+      @.firstNameField = @.$el.find('input[name=first-name]');
+      @.lastNameField = @.$el.find('input[name=last-name]');
+      @.Address1Field = @.$el.find('input[name=address1]');
+      @.Address2Field = @.$el.find('input[name=address2]');
+      @.CityField = @.$el.find('input[name=city]');
+      @.StateField = @.$el.find('input[name=state]');
+      @.ZipField = @.$el.find('input[name=zip]');
+      @.shipAddress1Field = @.$el.find('input[name=ship-address1]');
+      @.shipAddress2Field = @.$el.find('input[name=ship-address2]');
+      @.shipCityField = @.$el.find('input[name=ship-city]');
+      @.shipStateField = @.$el.find('input[name=ship-state]');
+      @.shipZipField = @.$el.find('input[name=ship-zip]');
+      @.emailField = @.$el.find('input[name=email]');
+      @.passwordField = @.$el.find('input[name=password]');
+      @.passwordConfirmationField = @.$el.find('input[name=password-confirmation]');
+    addressAttributes: ->
+      address1: @.Address1Field.val()
+      address2: @.Address2Field.val()
+      city: @.CityField.val()
+      state: @.StateField.val()
+      zip: @.ZipField.val()
+      shipAddress: @.shipAddress1Field.val()
+      shipAddress2: @.shipAddress2Field.val()
+      shipCity: @.shipCityField.val()
+      shipState: @.shipStateField.val()
+      shipZip: @.shipZipField.val()
+    accountAttributes: ->
+      firstName: @.firstNameField.val()
+      lastName: @.lastNameField.val()
+      email: @.emailField.val()
+      password: @.passwordField.val()
+      passwordConfirmation: @.passwordConfirmationField.val()
+
+
+
+    initializeCheckoutForm: ->
+      @.form = @.$el.find('form');
 
     el: '.steps-content'
     stepsList: 
       steps: ['plans','flavors','accessories', 'form', 'checkout']
     events:
+      'click #process-registration' : 'processRegistration'
       'click .continue' : 'nextStep'
       'click .back' : 'backStep'
-      'click #bill-address-check' : 'toggleBilling'
+      'click #ship-address-check' : 'toggleShipping'
       'change #flavor-level-select' : 'render'
-    toggleBilling: ->
-      if document.getElementById('bill-address-check')
-        if document.getElementById('bill-address-check').checked
-          $('#billing-address-form').slideUp()
+    processRegistration: ->
+      card =
+        number: $('input[data-stripe=number]').val()
+        cvc: $('input[data-stripe=cvc]').val()
+        expMonth: $('input[data-stripe=exp-month]').val()
+        expYear: $('input[data-stripe=exp-year]').val()
+      Stripe.createToken(card, @.handleStripeResponse)
+    handleStripeResponse: (status, response) ->
+      debugger
+      if status == 200
+        alert(response.id)
+      else
+        alert(response.error.message)
+
+    findFlavorDifference: ->
+        flavorCountPlan = window.cart.byType('plan').first().get('flavor_count')
+        flavorCountCart = _.reduce window.cart.byType("flavor").models, ((sumQuantity, model) ->
+          sumQuantity + model.get("quantity")
+        ), 0
+        flavorDifference = flavorCountPlan - flavorCountCart
+        return flavorDifference
+    validateStep: ->
+      errors = []
+      if currentStep is 1
+        if window.cart.byType('plan').length is 0
+          errors.push 'You need to pick at least one plan'
+          return errors
+      if currentStep is 2
+        flavorDifference = @.findFlavorDifference()
+        if flavorDifference > 0
+          errors.push 'You need to pick ' + flavorDifference + ' more flavors.'
+          return errors
+        else if flavorDifference < 0
+          errors.push 'You need to remove ' + (flavorDifference*-1) + ' flavors.'
+          return errors
+    toggleShipping: ->
+      if document.getElementById('ship-address-check')
+        if document.getElementById('ship-address-check').checked
+          $('#ship-address-form').slideUp()
         else
-          $('#billing-address-form').slideDown()
+          $('#ship-address-form').slideDown()
+
     nextStep: ->
+      errors = @.validateStep()
+      if errors
+        $('#errors').empty()
+        _.each errors, (error) ->
+          $('#errors').append error
+        return @
       @.undelegateEvents()
       if window[@.stepsList.steps[currentStep]]
         window[@.stepsList.steps[currentStep]].fetch()
@@ -160,10 +274,9 @@ jQuery ->
 
 
     render: ->
-
       @.$el.html( @.template(currentStep: currentStep) )
       if currentStep is 2
-        levelSelected = event.target.value
+        levelSelected = event.target.value or '0'
         $("#flavor-level-select option[value='" + levelSelected + "']").attr("selected", "selected")
         @filtered = @collection.byLevel(levelSelected)
         @filtered.each ((item) ->
@@ -181,16 +294,24 @@ jQuery ->
       $('#step-' + (currentStep)).after(@.$el)
 
   Myapp.Views.ItemCartView = Backbone.View.extend
+    initialize: ->
+      @model.bind('change:quantity', @render , @ )
+      @model.bind('remove', @removeItem , @ )
     className: 'steps-item'
     tagName: 'div'
     template: JST['backbone/templates/itemCartTemplate']
     events:
       'click .item-close' : 'removeItem'
     removeItem: ->
+
       window.cart.remove(@.model)
       @.undelegateEvents()
       @.remove()
       window.cart.calculateSubtotal()
+      # build condition to go back to flavors select view if you remove any flavors
+      # if @.model.get('type') is 'flavor'
+      #   debugger
+
     render: ->
       @.$el.html(@template(item: @model))
       
@@ -231,6 +352,8 @@ jQuery ->
   plans.fetch()
   test = new Myapp.Views.StepView(collection: plans)
   shoppingCartView = new Myapp.Views.ShoppingCartView(collection: window.cart)
+  debugger
+  
 
   
 

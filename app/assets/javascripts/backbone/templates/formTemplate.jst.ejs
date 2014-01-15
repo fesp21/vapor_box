@@ -1,5 +1,4 @@
 <form accept-charset="UTF-8" >
-  <h4>Shipping Address</h4>
   <div class="field inline no-margin">
     <label for="first-name">First Name</label>
     <input id="first-name" size="32" name="first-name" type="text">
@@ -8,25 +7,52 @@
     <label for="last-name">Last Name</label>
     <input id="last-name" size="32" name="last-name" type="text">
   </div>
+  <h4>Billing Address</h4>
   <div class="field">
-    <label for="ship-address1">Address Line 1</label>
-    <input id="ship-address1" size="70" name="ship-address1" type="text">
+    <label for="address1">Address Line 1</label>
+    <input id="address1" name="address1" size="70" type="text">
   </div>
   <div class="field">
-    <label for="ship-address2">Address Line 2</label>
-    <input id="ship-address2"  size="70" name="ship-address2" type="text">
+    <label for="address2">Address Line 2</label>
+    <input id="address2" name="address2" size="70" type="text">
   </div>
   <div class="field inline no-margin">
-    <label for="ship-city">City</label>
-    <input id="ship-city" size="25" name="ship-city" type="text">
+    <label for="city">City</label>
+    <input id="city" name="city" type="text">
   </div>
   <div class="field inline">
-    <label for="ship-state">State</label>
-    <input id="ship-state" name="ship-state" size="2" type="text">      
+    <label for="state">State</label>
+    <input id="state" name="state" size="2" type="text">
   </div>
   <div class="field inline">
-    <label for="ship-zip">Zip</label>
-    <input id="ship-zip" name="ship-zip" type="text">
+    <label for="zip">Zip</label>
+    <input id="zip" name="zip" type="text">
+  </div>
+  <h4>Shipping Address</h4>
+  <div class="form-row extra-margin-top">
+    <input type="checkbox" id="ship-address-check" name="ship-address-check" value="true" checked>Same as Billing Address
+  </div>
+  <div id="ship-address-form">
+    <div class="field">
+      <label for="ship-address1">Address Line 1</label>
+      <input id="ship-address1" size="70" name="ship-address1" type="text">
+    </div>
+    <div class="field">
+      <label for="ship-address2">Address Line 2</label>
+      <input id="ship-address2"  size="70" name="ship-address2" type="text">
+    </div>
+    <div class="field inline no-margin">
+      <label for="ship-city">City</label>
+      <input id="ship-city" size="25" name="ship-city" type="text">
+    </div>
+    <div class="field inline">
+      <label for="ship-state">State</label>
+      <input id="ship-state" name="ship-state" size="2" type="text">      
+    </div>
+    <div class="field inline">
+      <label for="ship-zip">Zip</label>
+      <input id="ship-zip" name="ship-zip" type="text">
+    </div>
   </div>
   <h4>Create Account</h4>
   <div class="field">
