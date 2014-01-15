@@ -22,6 +22,7 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
+gem 'flatui-rails'
 gem 'handlebars_assets'
 gem 'bootstrap-sass'
 gem 'devise'

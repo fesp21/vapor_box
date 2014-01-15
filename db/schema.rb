@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140109072131) do
+ActiveRecord::Schema.define(:version => 20140115194634) do
 
   create_table "accesories_subscriptions", :id => false, :force => true do |t|
     t.integer "accesory_id"
@@ -21,10 +21,11 @@ ActiveRecord::Schema.define(:version => 20140109072131) do
 
   create_table "accessories", :force => true do |t|
     t.string   "name"
-    t.decimal  "cost",       :precision => 8, :scale => 2
+    t.decimal  "cost",        :precision => 8, :scale => 2
     t.string   "image"
-    t.datetime "created_at",                               :null => false
-    t.datetime "updated_at",                               :null => false
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
+    t.string   "description"
   end
 
   create_table "addresses", :force => true do |t|
@@ -51,8 +52,9 @@ ActiveRecord::Schema.define(:version => 20140109072131) do
     t.string   "name"
     t.string   "level"
     t.string   "image"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.string   "description"
   end
 
   create_table "flavors_subscriptions", :id => false, :force => true do |t|
@@ -68,6 +70,7 @@ ActiveRecord::Schema.define(:version => 20140109072131) do
     t.datetime "created_at",                                 :null => false
     t.datetime "updated_at",                                 :null => false
     t.integer  "flavor_count"
+    t.string   "description"
   end
 
   create_table "plans_subscriptions", :id => false, :force => true do |t|
