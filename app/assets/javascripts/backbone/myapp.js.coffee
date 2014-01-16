@@ -97,26 +97,49 @@ jQuery ->
     url: '/accessories'
 
 
-  Myapp.Views.ItemView = Backbone.View.extend
+  Myapp.Views.ActionItemView = Backbone.View.extend
     initialize: ->
       # bind to changes in shopping cart
       window.cart.bind('remove', @changeSelected, @)
-    className: 'single-item'
-    tagName: 'li'
-    template: JST['backbone/templates/itemTemplate']
-    render: ->
-      if window.cart.where({ uniqueId: this.model.get('uniqueId')}).length
-        this.model.set(selected: true)
-      @$el.html @template(item: @model)
+    template: JST['backbone/templates/actionItemTemplate']
     changeSelected: (event) ->
       # remove selected buttons
       if event.id is @.model.id
         @.model.set(selected: false)
         @.render()
       return @
+    addToCart: ->
+      #for adding up quantities or adding new item
+      if _.pluck(window.cart.models, 'id').indexOf(this.model.id) >= 0
+        modelQuantity = window.cart.get(@.model).get('quantity')
+        window.cart.get(@.model).set(quantity: modelQuantity+1)
+      else
+        @.model.set(quantity: 1, selected: true)
+        window.cart.add(@.model)
     events:
-      'click .plan-image' : 'addToCart'
-      'click .remove-quantity' : 'removeQuantity'
+      'click': 'addToCart'
+    render: ->
+      debugger
+      @$el.html @template(item: @model)
+
+  Myapp.Views.ItemView = Backbone.View.extend
+    className: 'single-item'
+    tagName: 'li'
+    template: JST['backbone/templates/itemTemplate']
+    render: ->
+      if window.cart.where({ uniqueId: this.model.get('uniqueId')}).length
+        this.model.set(selected: true)
+      if this.model.get('type') is 'flavor'
+        if this.model.get('level') is '0'
+          template = JST['backbone/templates/flavorTemplate']
+          @$el.html template(item: @model)
+      else
+        template = @.template
+        @$el.html template(item: @model)
+    
+    events:
+      'click .plan-add' : 'addToCart'
+      # 'click .remove-quantity' : 'removeQuantity'
     removeQuantity: ->
       quantity = window.cart.get(@.model).get('quantity')
       if quantity > 1
@@ -127,17 +150,16 @@ jQuery ->
         return @
     addToCart: ->
       $('#errors').empty()
-      if @.model.get('type') is 'plan'
-        window.cart.remove(window.cart.byType('plan').models)
-        window.cart.add(@.model)
-        @.model.set(selected: true)
-      else if _.pluck(window.cart.models, 'id').indexOf(this.model.id) >= 0
-        modelQuantity = window.cart.get(@.model).get('quantity')
-        window.cart.get(@.model).set(quantity: modelQuantity+1)
-      else
-        @.model.set(quantity: 1, selected: true)
-        window.cart.add(@.model)
-      @.render()
+      window.cart.remove(window.cart.byType('plan').models)
+      window.cart.add(@.model)
+      @.model.set(selected: true)
+      #for adding up quantities or adding new item
+      # else if _.pluck(window.cart.models, 'id').indexOf(this.model.id) >= 0
+      #   modelQuantity = window.cart.get(@.model).get('quantity')
+      #   window.cart.get(@.model).set(quantity: modelQuantity+1)
+      # else
+      #   @.model.set(quantity: 1, selected: true)
+      #   window.cart.add(@.model)
 
       
 
@@ -256,6 +278,17 @@ jQuery ->
       @.render()  
       window.shoppingCartView.render(null, currentStep+1, this.stepsList.stepsSingular[currentStep])      
 
+    handleClickableAndInactiveTabs: ->
+      $('#step-' + (currentStep)).removeClass 'inactive'
+      $('#step-' + (currentStep)).removeClass 'clickable'
+      i = 0
+      while i < 5
+        $($(".steps-wrapper")[i]).addClass "clickable"  if i < currentStep - 1
+        $(".steps-wrapper").addClass "inactive"
+        i++
+      $('#step-' + (currentStep)).removeClass 'inactive'
+      $('#step-' + (currentStep)).after(@.$el)
+
     render: ->
       if currentStep is 1
         collection = this.options.collectionA
@@ -276,21 +309,20 @@ jQuery ->
         @initializeShippingForm()
       if currentStep is 4
         @initializeCheckoutForm()
-
       if collection
         collection.each ((item) ->
           @$(".products-container").append new Myapp.Views.ItemView(model: item).render()
         ), this
-      $('#step-' + (currentStep)).removeClass 'inactive'
-      $('#step-' + (currentStep)).removeClass 'clickable'
-      debugger
-      i = 0
-      while i < currentStep - 1
-        $($(".steps-wrapper")[i]).addClass "clickable"  if i < currentStep - 1
-        $(".steps-wrapper").addClass "inactive"
-        i++
-      $('#step-' + (currentStep)).removeClass 'inactive'
-      $('#step-' + (currentStep)).after(@.$el)
+        if currentStep is 2
+          collection.each ((item) ->
+            @.$(".select-container[data-name=" + item.get('name')+"]" ).append new Myapp.Views.ActionItemView(model: item).render()
+          ), this
+        else
+          collection.each ((item) ->
+            @.$(".select-container[data-name=" + item.get('uniqueId')+"]" ).append new Myapp.Views.ActionItemView(model: item).render()
+          ), this
+
+      @handleClickableAndInactiveTabs()
       return @
 
   Myapp.Views.ItemCartView = Backbone.View.extend
@@ -314,7 +346,6 @@ jQuery ->
       #   debugger
 
     render: ->
-      debugger
       #throw in step from options arleady passed on line 327
       @.$el.html(@template(item: @model, step: this.options.step))
       
