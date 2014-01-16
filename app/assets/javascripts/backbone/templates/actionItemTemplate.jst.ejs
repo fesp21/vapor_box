@@ -1,0 +1,7 @@
+<% if (item.get('type') == 'flavor') { %>
+<button>Add <%= item.get('level') %> <%= item.get('name') %> to cart</button>
+
+<% } else {%>
+<button>Add <%= item.get('name') %> to cart</button>
+
+<% } %>
