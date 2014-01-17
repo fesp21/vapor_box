@@ -32,19 +32,22 @@ jQuery ->
       )
       return new Myapp.Collections.ShoppingCart(filtered)
     calculateSubtotal: ->
-      subtotal = 0
+      subtotalMonthly = 0
+      subtotalOneTime = 0
       @.each ((item) ->
         if item.get('cost')
           if item.get('quantity')
-            subtotal = subtotal + (parseInt(item.get('cost')) * parseInt(item.get('quantity')))
+            subtotalOneTime = subtotalOneTime + (parseInt(item.get('cost')) * parseInt(item.get('quantity')))
           else
-            subtotal = subtotal + parseInt(item.get('cost'))
+            subtotalMonthly = subtotalMonthly + parseInt(item.get('cost'))
       )
       #define shipping based on plan
       shipping = 0
 
       $('#shipping-cost').html("Shipping: $" + shipping.toFixed(2))
-      $('#subtotal-price').html("Subtotal: $" + subtotal.toFixed(2))
+      $('#subtotal-monthly').html("Monthly: $" + subtotalMonthly.toFixed(2))
+      $('#subtotal-one-time').html("One-Time: $" + subtotalOneTime.toFixed(2))
+      $('#subtotal').html("Subtotal: $" + (subtotalOneTime + subtotalMonthly).toFixed(2))
 
   Myapp.Models.Flavor = Myapp.Models.ItemModel.extend
     defaults: 
@@ -109,6 +112,13 @@ jQuery ->
         @.render()
       return @
     addToCart: ->
+      $('#errors').empty()
+      if @.model.get('type') is 'plan'
+        window.cart.remove(window.cart.byType('plan').models)
+        window.cart.add(@.model)
+        @.model.set(selected: true)
+        currentStep = currentStep + 1
+        window.test.render()
       #for adding up quantities or adding new item
       if _.pluck(window.cart.models, 'id').indexOf(this.model.id) >= 0
         modelQuantity = window.cart.get(@.model).get('quantity')
@@ -116,10 +126,19 @@ jQuery ->
       else
         @.model.set(quantity: 1, selected: true)
         window.cart.add(@.model)
+      @render()
+    removeFromCart: ->
+      quantity = window.cart.get(@.model).get('quantity')
+      if quantity > 1
+        window.cart.get(@.model).set(quantity: quantity-1)
+        return @
+      else
+        window.cart.remove(@.model)
+        return @
     events:
-      'click': 'addToCart'
+      'click .add-item': 'addToCart'
+      'click .remove-item': 'removeFromCart'
     render: ->
-      debugger
       @$el.html @template(item: @model)
 
   Myapp.Views.ItemView = Backbone.View.extend
@@ -131,11 +150,9 @@ jQuery ->
         this.model.set(selected: true)
       if this.model.get('type') is 'flavor'
         if this.model.get('level') is '0'
-          template = JST['backbone/templates/flavorTemplate']
-          @$el.html template(item: @model)
+          @$el.html @template(item: @model)
       else
-        template = @.template
-        @$el.html template(item: @model)
+        @$el.html @template(item: @model)
     
     events:
       'click .plan-add' : 'addToCart'
@@ -149,10 +166,7 @@ jQuery ->
         window.cart.remove(@.model)
         return @
     addToCart: ->
-      $('#errors').empty()
-      window.cart.remove(window.cart.byType('plan').models)
-      window.cart.add(@.model)
-      @.model.set(selected: true)
+
       #for adding up quantities or adding new item
       # else if _.pluck(window.cart.models, 'id').indexOf(this.model.id) >= 0
       #   modelQuantity = window.cart.get(@.model).get('quantity')
@@ -224,10 +238,13 @@ jQuery ->
         expMonth: $('input[data-stripe=exp-month]').val()
         expYear: $('input[data-stripe=exp-year]').val()
       Stripe.createToken(card, @.handleStripeResponse)
+
     handleStripeResponse: (status, response) ->
       debugger
       if status == 200
         alert(response.id)
+        #set token to user
+        # user save
       else
         alert(response.error.message)
 
@@ -252,6 +269,9 @@ jQuery ->
         else if flavorDifference < 0
           errors.push 'You need to remove ' + (flavorDifference*-1) + ' flavors.'
           return errors
+      if currentStep is 4
+        # new user model
+        # new address model
     toggleShipping: ->
       if document.getElementById('ship-address-check')
         if document.getElementById('ship-address-check').checked
@@ -279,8 +299,8 @@ jQuery ->
       window.shoppingCartView.render(null, currentStep+1, this.stepsList.stepsSingular[currentStep])      
 
     handleClickableAndInactiveTabs: ->
-      $('#step-' + (currentStep)).removeClass 'inactive'
-      $('#step-' + (currentStep)).removeClass 'clickable'
+      $('.steps-wrapper').removeClass 'inactive'
+      $('.steps-wrapper').removeClass 'clickable'
       i = 0
       while i < 5
         $($(".steps-wrapper")[i]).addClass "clickable"  if i < currentStep - 1

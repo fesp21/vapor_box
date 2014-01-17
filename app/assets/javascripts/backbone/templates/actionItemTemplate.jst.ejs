@@ -1,7 +1,19 @@
-<% if (item.get('type') == 'flavor') { %>
-<button>Add <%= item.get('level') %> <%= item.get('name') %> to cart</button>
+<% if (!item.get('selected')) { %>
+  <% if (item.get('type') == 'flavor') { %>
+  <button class='add-item button button-grey'>Add <%= item.get('level') %> <%= item.get('name') %> to cart</button>
 
-<% } else {%>
-<button>Add <%= item.get('name') %> to cart</button>
+  <% } else {%>
+  <button class='add-item button button-grey '>Add <%= item.get('name') %> to cart</button>
 
+  <% } %>
+<% } else { %>
+  <% if (item.get('type') == 'plan') { %>
+    <button class='add-item button button-blue'>Selected</button>
+  <% } else { %>
+  <button class='remove-item button button-red'><i class='fa fa-minus'></i></button>
+  <% if (item.get('type') == 'flavor') { %>
+    <span class='level-display'>Level <%= item.get('level') %></span>
+  <% } %>
+  <button class='add-item button button-green'><i class='fa fa-plus'></i></button>
+  <% } %>
 <% } %>
