@@ -270,6 +270,7 @@ jQuery ->
           errors.push 'You need to remove ' + (flavorDifference*-1) + ' flavors.'
           return errors
       if currentStep is 4
+        console.log('yoo')
         # new user model
         # new address model
     toggleShipping: ->
