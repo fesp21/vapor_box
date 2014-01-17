@@ -1,7 +1,7 @@
 <div class="plan-header"><%= item.get('name') %></div>
-<div class="plan-image">
-  <img src="<%= item.get('image') %>" alt="<%= item.get('name') %> Image">
+<div class="plan-image" style="background: url('<%= item.get('image') %>') no-repeat center center; background-size: 100%">
 </div>
+
 <div class="plan-description">
   <%= item.get('description') %>
 </div>

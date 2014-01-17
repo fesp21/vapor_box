@@ -1,17 +1,23 @@
 <div class="plan-header"><%= item.get('name') %></div>
-<% if (item.get('type') == 'plan') { %>
-<div class="plan-add">
-<% }%>
-<div class="plan-image">
-  <img src="<%= item.get('image') %>" alt="<%= item.get('name') %> Image">
-</div>
-<% if (item.get('type') == 'plan') { %>
-</div>
-<% }%>
+  <% if (item.get('type') == 'plan')  { %>
+    <div class="plan-image">
+      <img src="<%= item.get('image') %>" alt="<%= item.get('name') %> Image">
+  <% } else { %>
+    <div class="plan-image" style="background: url('<%= item.get('image') %>') no-repeat center center; background-size: 80%">
+  <% } %> 
+  </div>
 
-<div class="plan-description">
-  <%= item.get('description') %>
-</div>
-<div class="plan-cost" ><%= item.get('cost') %></div>
-<div class='select-container' data-name="<%= item.get('uniqueId') %>">
+
+  <div class="plan-description">
+    <%= item.get('description') %>
+  </div>
+  <div class="plan-cost" ><%= item.get('cost') %></div>
+  <% if (item.get('type') == 'flavor')  { %>
+    <div class='select-container' data-name="<%= item.get('name') %>">
+  
+  <% } else { %>
+    <div class='select-container' data-name="<%= item.get('uniqueId') %>">
+  <% }%>
 </div>  
+
+
