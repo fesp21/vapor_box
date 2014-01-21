@@ -12,7 +12,9 @@
   <% } else { %>
   <button class='remove-item button button-red'><i class='fa fa-minus'></i></button>
   <% if (item.get('type') == 'flavor') { %>
-    <span class='level-display'>Level <%= item.get('level') %></span>
+    <span class='level-display'>Level <%= item.get('level') %> (<%= item.get('quantity') %>)</span>
+  <% } else {%>
+    <span class='level-display'>(<%= item.get('quantity') %>)</span>
   <% } %>
   <button class='add-item button button-green'><i class='fa fa-plus'></i></button>
   <% } %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140115194634) do
+ActiveRecord::Schema.define(:version => 20140121014526) do
 
   create_table "accesories_subscriptions", :id => false, :force => true do |t|
     t.integer "accesory_id"
@@ -21,15 +21,15 @@ ActiveRecord::Schema.define(:version => 20140115194634) do
 
   create_table "accessories", :force => true do |t|
     t.string   "name"
-    t.decimal  "cost",        :precision => 8, :scale => 2
+    t.integer  "cost"
     t.string   "image"
-    t.datetime "created_at",                                :null => false
-    t.datetime "updated_at",                                :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
     t.string   "description"
   end
 
   create_table "addresses", :force => true do |t|
-    t.string   "address"
+    t.string   "address1"
     t.string   "address2"
     t.string   "city"
     t.string   "state"
@@ -63,12 +63,20 @@ ActiveRecord::Schema.define(:version => 20140115194634) do
     t.integer "quantity"
   end
 
+  create_table "one_time_accessories", :force => true do |t|
+    t.integer  "subscription_id"
+    t.integer  "accessory_id"
+    t.integer  "amount"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
   create_table "plans", :force => true do |t|
     t.string   "name"
-    t.decimal  "cost",         :precision => 8, :scale => 2
+    t.integer  "cost"
     t.string   "image"
-    t.datetime "created_at",                                 :null => false
-    t.datetime "updated_at",                                 :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
     t.integer  "flavor_count"
     t.string   "description"
   end
@@ -79,12 +87,22 @@ ActiveRecord::Schema.define(:version => 20140115194634) do
     t.integer "quantity"
   end
 
+  create_table "subscription_charges", :force => true do |t|
+    t.integer  "subscription_id"
+    t.integer  "amount"
+    t.string   "description"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
   create_table "subscriptions", :force => true do |t|
-    t.decimal  "cost",       :precision => 8, :scale => 2
-    t.datetime "created_at",                               :null => false
-    t.datetime "updated_at",                               :null => false
+    t.integer  "cost"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
     t.integer  "user_id"
     t.integer  "address_id"
+    t.string   "token"
+    t.string   "ship_date"
   end
 
   add_index "subscriptions", ["address_id"], :name => "index_subscriptions_on_address_id"
@@ -103,6 +121,8 @@ ActiveRecord::Schema.define(:version => 20140115194634) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                             :null => false
     t.datetime "updated_at",                             :null => false
+    t.string   "first_name"
+    t.string   "last_name"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

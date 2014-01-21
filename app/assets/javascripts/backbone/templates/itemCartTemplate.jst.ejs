@@ -2,6 +2,12 @@
   <%= item.get('name') %>
 </div>
 
+<% if (item.get('type') == 'flavor') { %>
+  <div class='cart-header item-level'>
+    Level: <%= item.get('level') %>
+  </div>
+<% } %>
+
 <% if (item.get('type') != 'plan') { %>
   <div class='cart-header item-quantity'>
     (x<%= item.get('quantity') %>)
@@ -24,11 +30,7 @@
   </div>
 <% } %>
 
-<% if (item.get('type') == 'flavor') { %>
-  <div class='cart-header item-level'>
-    Level: <%= item.get('level') %>
-  </div>
-<% } %>
+
 
 <% if (item.get('type') == 'flavor' && step == 2 || item.get('type') == 'accessory' && step == 3) { %>
   <div class='cart-header item-close'>
