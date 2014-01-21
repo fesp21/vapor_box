@@ -14,9 +14,17 @@ jQuery ->
   Stripe.setPublishableKey($('meta[name="stripe-key"]').attr('content'))
   currentStep = 1
   Myapp = window.Myapp or {}
-  Myapp.Models.User = Backbone.Model.extend
-  Myapp.Models.UserAddress = Backbone.Model.extend
 
+  Myapp.Models.User = Backbone.Model.extend
+    url: '/users.json'
+    paramRoot: 'user'
+    defaults:
+      email: ''
+      password: ''
+      password_confirmation: ''
+
+  Myapp.Models.UserAddress = Backbone.Model.extend
+    url: '/addresses'
 
 
   Myapp.Models.ItemModel = Backbone.Model.extend
@@ -75,7 +83,7 @@ jQuery ->
       type: 'plan'
     idAttribute: 'uniqueId'
     parse: (response) ->
-      response.cost = parseInt(response.cost).toFixed(2)
+      response.cost = (parseInt(response.cost)/100).toFixed(2)
       response.uniqueId = 'plan_'+response.id
       return response
 
@@ -91,7 +99,7 @@ jQuery ->
       type: 'accessory'
     idAttribute: 'uniqueId'
     parse: (response) ->
-      response.cost = parseInt(response.cost).toFixed(2)
+      response.cost = (parseInt(response.cost) / 100).toFixed(2)
       response.uniqueId = 'accessory_'+response.id
       return response
 
@@ -131,14 +139,18 @@ jQuery ->
       quantity = window.cart.get(@.model).get('quantity')
       if quantity > 1
         window.cart.get(@.model).set(quantity: quantity-1)
+        @.model.set(quantity: quantity-1)
+        @render()
         return @
       else
         window.cart.remove(@.model)
         return @
+      
     events:
       'click .add-item': 'addToCart'
       'click .remove-item': 'removeFromCart'
     render: ->
+      debugger
       @$el.html @template(item: @model)
 
   Myapp.Views.ItemView = Backbone.View.extend
@@ -185,39 +197,54 @@ jQuery ->
       return @
     template: JST['backbone/templates/stepsTemplate']
     initializeShippingForm: ->
+      @.sameAddress = this.$el.find('#ship-address-check')
       @.form = this.$el.find('form');
-      @.firstNameField = @.$el.find('input[name=first-name]');
-      @.lastNameField = @.$el.find('input[name=last-name]');
+      @.firstNameField = @.$el.find('input[name=first_name]');
+      @.lastNameField = @.$el.find('input[name=last_name]');
       @.Address1Field = @.$el.find('input[name=address1]');
       @.Address2Field = @.$el.find('input[name=address2]');
       @.CityField = @.$el.find('input[name=city]');
       @.StateField = @.$el.find('input[name=state]');
       @.ZipField = @.$el.find('input[name=zip]');
-      @.shipAddress1Field = @.$el.find('input[name=ship-address1]');
-      @.shipAddress2Field = @.$el.find('input[name=ship-address2]');
-      @.shipCityField = @.$el.find('input[name=ship-city]');
-      @.shipStateField = @.$el.find('input[name=ship-state]');
-      @.shipZipField = @.$el.find('input[name=ship-zip]');
+      @.shipAddress1Field = @.$el.find('input[name=ship_address1]');
+      @.shipAddress2Field = @.$el.find('input[name=ship_address2]');
+      @.shipCityField = @.$el.find('input[name=ship_city]');
+      @.shipStateField = @.$el.find('input[name=ship_state]');
+      @.shipZipField = @.$el.find('input[name=ship_zip]');
       @.emailField = @.$el.find('input[name=email]');
       @.passwordField = @.$el.find('input[name=password]');
-      @.passwordConfirmationField = @.$el.find('input[name=password-confirmation]');
+      @.passwordConfirmationField = @.$el.find('input[name=password_confirmation]');
     addressAttributes: ->
-      address1: @.Address1Field.val()
-      address2: @.Address2Field.val()
-      city: @.CityField.val()
-      state: @.StateField.val()
-      zip: @.ZipField.val()
-      shipAddress: @.shipAddress1Field.val()
-      shipAddress2: @.shipAddress2Field.val()
-      shipCity: @.shipCityField.val()
-      shipState: @.shipStateField.val()
-      shipZip: @.shipZipField.val()
+      if @.sameAddress.val()
+        address:
+          address1: @.Address1Field.val()
+          address2: @.Address2Field.val()
+          city: @.CityField.val()
+          state: @.StateField.val()
+          zip: @.ZipField.val()
+          ship_address: @.Address1Field.val()
+          ship_address2: @.Address2Field.val()
+          ship_city: @.CityField.val()
+          ship_state: @.StateField.val()
+          ship_zip: @.ZipField.val()
+      else
+        address:
+          address: @.Address1Field.val()
+          address2: @.Address2Field.val()
+          city: @.CityField.val()
+          state: @.StateField.val()
+          zip: @.ZipField.val()
+          ship_address: @.shipAddress1Field.val()
+          ship_address2: @.shipAddress2Field.val()
+          ship_city: @.shipCityField.val()
+          ship_state: @.shipStateField.val()
+          ship_zip: @.shipZipField.val()
     accountAttributes: ->
-      firstName: @.firstNameField.val()
-      lastName: @.lastNameField.val()
+      first_name: @.firstNameField.val()
+      last_name: @.lastNameField.val()
       email: @.emailField.val()
       password: @.passwordField.val()
-      passwordConfirmation: @.passwordConfirmationField.val()
+      password_confirmation: @.passwordConfirmationField.val()
     initializeCheckoutForm: ->
       @.form = @.$el.find('form');
 
@@ -226,12 +253,12 @@ jQuery ->
       steps: ['plans','flavors','accessories', 'form', 'checkout']
       stepsSingular: ['plan','flavor','accessory']
     events:
-      'click #process-registration' : 'processRegistration'
+      'click #process-registration' : 'cardVerification'
       'click .continue' : 'nextStep'
       'click .back' : 'backStep'
       'click #ship-address-check' : 'toggleShipping'
       'change #flavor-level-select' : 'render'
-    processRegistration: ->
+    cardVerification: ->
       card =
         number: $('input[data-stripe=number]').val()
         cvc: $('input[data-stripe=cvc]').val()
@@ -245,6 +272,19 @@ jQuery ->
         alert(response.id)
         #set token to user
         # user save
+        #error success - get id of user
+        # set user token
+        window.user.save(null)
+        window.userAddress.save(null)
+        # process sub
+          # plans/sub
+          # flaovrs/sub
+          # one time accessory
+          # one time charge
+
+          # create charge
+          # create sub w delayed date
+
       else
         alert(response.error.message)
 
@@ -255,6 +295,12 @@ jQuery ->
         ), 0
         flavorDifference = flavorCountPlan - flavorCountCart
         return flavorDifference
+    createUser: ->
+      window.user.set(@.accountAttributes())
+      #validate
+    createAddress: ->
+      window.userAddress.set(@.addressAttributes())
+      #validate
     validateStep: ->
       errors = []
       if currentStep is 1
@@ -270,7 +316,10 @@ jQuery ->
           errors.push 'You need to remove ' + (flavorDifference*-1) + ' flavors.'
           return errors
       if currentStep is 4
-        console.log('yoo')
+        @createUser()
+        @createAddress()
+
+      return @
         # new user model
         # new address model
     toggleShipping: ->
@@ -282,19 +331,16 @@ jQuery ->
 
     nextStep: ->
       errors = @.validateStep()
-      if errors
+      if errors.length
         $('#errors').empty()
         _.each errors, (error) ->
           $('#errors').append error
         return @
       currentStep = currentStep + 1
       @.render()
-      debugger
       window.shoppingCartView.render(null, currentStep-1, this.stepsList.stepsSingular[currentStep-2])
-      debugger
 
     backStep: ->
-      debugger
       currentStep = currentStep - 1
       @.render()  
       window.shoppingCartView.render(null, currentStep+1, this.stepsList.stepsSingular[currentStep])      
@@ -311,6 +357,7 @@ jQuery ->
       $('#step-' + (currentStep)).after(@.$el)
 
     render: ->
+      debugger
       if currentStep is 1
         collection = this.options.collectionA
         template = @.template
@@ -326,9 +373,9 @@ jQuery ->
         template = JST['backbone/templates/'+ this.stepsList.steps[currentStep-1] + 'Template']
 
       @.$el.html( template(currentStep: currentStep) )
-      if currentStep is 3
-        @initializeShippingForm()
       if currentStep is 4
+        @initializeShippingForm()
+      if currentStep is 5
         @initializeCheckoutForm()
       if collection
         collection.each ((item) ->
@@ -344,6 +391,9 @@ jQuery ->
           ), this
 
       @handleClickableAndInactiveTabs()
+      $("html, body").animate
+        scrollTop: $("#step-"+currentStep).offset().top-60
+      , 500
       return @
 
   Myapp.Views.ItemCartView = Backbone.View.extend
@@ -404,7 +454,8 @@ jQuery ->
     if currentStep > $(this).data("step")
       currentStep = $(this).data("step")
       window.test.render()
-
+  window.user = new Myapp.Models.User()
+  window.userAddress = new Myapp.Models.UserAddress()
   window.plans = new Myapp.Collections.Plans()
   window.accessories = new Myapp.Collections.Accessories()
   window.flavors = new Myapp.Collections.Flavors()

@@ -40,6 +40,7 @@ class AddressesController < ApplicationController
   # POST /addresses
   # POST /addresses.json
   def create
+
     @address = Address.new(params[:address])
 
     respond_to do |format|

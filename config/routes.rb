@@ -8,10 +8,10 @@ Myapp::Application.routes.draw do
   resources :flavors
 
 
-  # resources :addresses
+  resources :addresses
 
 
-  # resources :subscriptions
+  resources :subscriptions
 
   get '/about', to: 'static_pages#about'
   get '/how_it_works', to: 'static_pages#how_it_works'
