@@ -274,7 +274,19 @@ jQuery ->
         # user save
         #error success - get id of user
         # set user token
-        window.user.save(null)
+        window.user.save null,
+          error: (originalModel, resp, options) ->
+            self.$el.find("input").removeClass "error"
+            errors = JSON.parse(resp.responseText).errors
+            _.each errors, (value, key) ->
+              self.$el.find("input[name=" + key + "]").addClass "error"
+
+            self.submitButton.removeClass "disabled"
+
+          success: ->
+            self.form.data "user-created", true
+            document.location.href = "/"
+
         window.userAddress.save(null)
         # process sub
           # plans/sub
