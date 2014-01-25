@@ -40,7 +40,32 @@ class SubscriptionsController < ApplicationController
   # POST /subscriptions
   # POST /subscriptions.json
   def create
-    @subscription = Subscription.new(params[:subscription])
+    
+    @cart = JSON.parse params[:cart]
+    @token = params[:token]
+    @user = User.find(params[:userId])
+    @address = Address.find(params[:addressId])
+    #date.time now to determine ship date 15 or 1
+    @customer = Subscription.create_stripe_customer @cart, @token
+    Subscription.create_charge @cart, @customer
+
+    #determine ship date
+    start_date_time = DateTime.now
+    if start_date_time > DateTime.now.beginning_of_month + 14.day
+      @ship_date = 15
+    else
+      @ship_date = 1
+    end
+    @subscription = Subscription.new(user_id: @user, address_id: @address, token: @token, ship_date: @ship_date)
+
+        # process sub
+        # plans/sub
+        # flaovrs/sub
+        # one time accessory
+        # one time charge
+
+        # create charge
+        # create sub w delayed date
 
     respond_to do |format|
       if @subscription.save
