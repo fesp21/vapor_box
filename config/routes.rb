@@ -17,6 +17,7 @@ Myapp::Application.routes.draw do
   get '/how_it_works', to: 'static_pages#how_it_works'
   get '/signup', to: 'static_pages#signup'
   get "static_pages/home"
+  match '/create_subscription', to: 'application#create_subscription'
   
 
   devise_for :users, path_names: {sign_in: "login", sign_out: "logout"}
