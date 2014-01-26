@@ -15,6 +15,14 @@ jQuery ->
   currentStep = 1
   Myapp = window.Myapp or {}
 
+
+  Myapp.Models.ShoppingCartWrapper = Backbone.Model.extend(
+    url: "/create_subscription"  
+      #something to save?
+    toJSON: ->
+      window.cart.toJSON() # where model is the collection class YOU defined above
+  )
+
   Myapp.Models.User = Backbone.Model.extend
     url: '/users.json'
     paramRoot: 'user'
@@ -24,7 +32,8 @@ jQuery ->
       password_confirmation: ''
 
   Myapp.Models.UserAddress = Backbone.Model.extend
-    url: '/addresses'
+    url: '/addresses.json'
+    paramRoot: 'address'
 
 
   Myapp.Models.ItemModel = Backbone.Model.extend
@@ -83,7 +92,6 @@ jQuery ->
       type: 'plan'
     idAttribute: 'uniqueId'
     parse: (response) ->
-      response.cost = (parseInt(response.cost)/100).toFixed(2)
       response.uniqueId = 'plan_'+response.id
       return response
 
@@ -99,7 +107,6 @@ jQuery ->
       type: 'accessory'
     idAttribute: 'uniqueId'
     parse: (response) ->
-      response.cost = (parseInt(response.cost) / 100).toFixed(2)
       response.uniqueId = 'accessory_'+response.id
       return response
 
@@ -150,7 +157,6 @@ jQuery ->
       'click .add-item': 'addToCart'
       'click .remove-item': 'removeFromCart'
     render: ->
-      debugger
       @$el.html @template(item: @model)
 
   Myapp.Views.ItemView = Backbone.View.extend
@@ -197,48 +203,47 @@ jQuery ->
       return @
     template: JST['backbone/templates/stepsTemplate']
     initializeShippingForm: ->
+      @.submitButton = this.$el.find('#process-registration')
       @.sameAddress = this.$el.find('#ship-address-check')
       @.form = this.$el.find('form');
-      @.firstNameField = @.$el.find('input[name=first_name]');
-      @.lastNameField = @.$el.find('input[name=last_name]');
-      @.Address1Field = @.$el.find('input[name=address1]');
-      @.Address2Field = @.$el.find('input[name=address2]');
-      @.CityField = @.$el.find('input[name=city]');
-      @.StateField = @.$el.find('input[name=state]');
-      @.ZipField = @.$el.find('input[name=zip]');
-      @.shipAddress1Field = @.$el.find('input[name=ship_address1]');
-      @.shipAddress2Field = @.$el.find('input[name=ship_address2]');
-      @.shipCityField = @.$el.find('input[name=ship_city]');
-      @.shipStateField = @.$el.find('input[name=ship_state]');
-      @.shipZipField = @.$el.find('input[name=ship_zip]');
-      @.emailField = @.$el.find('input[name=email]');
-      @.passwordField = @.$el.find('input[name=password]');
-      @.passwordConfirmationField = @.$el.find('input[name=password_confirmation]');
+      @.firstNameField = @.$el.find('input[name=first_name]')
+      @.lastNameField = @.$el.find('input[name=last_name]')
+      @.Address1Field = @.$el.find('input[name=address1]')
+      @.Address2Field = @.$el.find('input[name=address2]')
+      @.CityField = @.$el.find('input[name=city]')
+      @.StateField = @.$el.find('input[name=state]')
+      @.ZipField = @.$el.find('input[name=zip]')
+      @.shipAddress1Field = @.$el.find('input[name=ship_address1]')
+      @.shipAddress2Field = @.$el.find('input[name=ship_address2]')
+      @.shipCityField = @.$el.find('input[name=ship_city]')
+      @.shipStateField = @.$el.find('input[name=ship_state]')
+      @.shipZipField = @.$el.find('input[name=ship_zip]')
+      @.emailField = @.$el.find('input[name=email]')
+      @.passwordField = @.$el.find('input[name=password]')
+      @.passwordConfirmationField = @.$el.find('input[name=password_confirmation]')
     addressAttributes: ->
       if @.sameAddress.val()
-        address:
-          address1: @.Address1Field.val()
-          address2: @.Address2Field.val()
-          city: @.CityField.val()
-          state: @.StateField.val()
-          zip: @.ZipField.val()
-          ship_address: @.Address1Field.val()
-          ship_address2: @.Address2Field.val()
-          ship_city: @.CityField.val()
-          ship_state: @.StateField.val()
-          ship_zip: @.ZipField.val()
+        address1: @.Address1Field.val()
+        address2: @.Address2Field.val()
+        city: @.CityField.val()
+        state: @.StateField.val()
+        zip: @.ZipField.val()
+        ship_address1: @.Address1Field.val()
+        ship_address2: @.Address2Field.val()
+        ship_city: @.CityField.val()
+        ship_state: @.StateField.val()
+        ship_zip: @.ZipField.val()
       else
-        address:
-          address: @.Address1Field.val()
-          address2: @.Address2Field.val()
-          city: @.CityField.val()
-          state: @.StateField.val()
-          zip: @.ZipField.val()
-          ship_address: @.shipAddress1Field.val()
-          ship_address2: @.shipAddress2Field.val()
-          ship_city: @.shipCityField.val()
-          ship_state: @.shipStateField.val()
-          ship_zip: @.shipZipField.val()
+        address: @.Address1Field.val()
+        address2: @.Address2Field.val()
+        city: @.CityField.val()
+        state: @.StateField.val()
+        zip: @.ZipField.val()
+        ship_address: @.shipAddress1Field.val()
+        ship_address2: @.shipAddress2Field.val()
+        ship_city: @.shipCityField.val()
+        ship_state: @.shipStateField.val()
+        ship_zip: @.shipZipField.val()
     accountAttributes: ->
       first_name: @.firstNameField.val()
       last_name: @.lastNameField.val()
@@ -267,35 +272,37 @@ jQuery ->
       Stripe.createToken(card, @.handleStripeResponse)
 
     handleStripeResponse: (status, response) ->
-      debugger
+      self = @
       if status == 200
-        alert(response.id)
+        
         #set token to user
         # user save
         #error success - get id of user
         # set user token
-        window.user.save null,
-          error: (originalModel, resp, options) ->
-            self.$el.find("input").removeClass "error"
-            errors = JSON.parse(resp.responseText).errors
-            _.each errors, (value, key) ->
-              self.$el.find("input[name=" + key + "]").addClass "error"
 
-            self.submitButton.removeClass "disabled"
-
-          success: ->
-            self.form.data "user-created", true
-            document.location.href = "/"
-
-        window.userAddress.save(null)
+        # window.cart.set(token: response.id)
+        #ajax post
+        $.ajax
+          type: "POST"
+          url: "/subscriptions.json"
+          data:
+            token: response.id
+            cart: JSON.stringify(window.cart.toJSON())
+            addressId: window.userAddress.id
+            userId: window.user.id
+          dataType: 'json'
+          success: (data) ->
+            debugger
+          error: (xhr, status, error) ->
+            debugger
         # process sub
-          # plans/sub
-          # flaovrs/sub
-          # one time accessory
-          # one time charge
+        # plans/sub
+        # flaovrs/sub
+        # one time accessory
+        # one time charge
 
-          # create charge
-          # create sub w delayed date
+        # create charge
+        # create sub w delayed date
 
       else
         alert(response.error.message)
@@ -308,11 +315,30 @@ jQuery ->
         flavorDifference = flavorCountPlan - flavorCountCart
         return flavorDifference
     createUser: ->
+      self = @
       window.user.set(@.accountAttributes())
-      #validate
+      window.user.save null,
+        error: (originalModel, resp, options) ->
+          debugger
+          self.$el.find("input").removeClass "error"
+          errors = JSON.parse(resp.responseText).errors
+          _.each errors, (value, key) ->
+            self.$el.find("input[name=" + key + "]").addClass "error"
+
+          self.submitButton.removeClass "disabled"
+
+        success: ->
     createAddress: ->
+      self = @
       window.userAddress.set(@.addressAttributes())
-      #validate
+      window.userAddress.save null,
+        error: (originalModel, resp, options) ->
+          self.$el.find("input").removeClass "error"
+          errors = JSON.parse(resp.responseText).errors
+          _.each errors, (value, key) ->
+            self.$el.find("input[name=" + key + "]").addClass "error"
+          self.submitButton.removeClass "disabled"
+        success: ->
     validateStep: ->
       errors = []
       if currentStep is 1
@@ -328,6 +354,10 @@ jQuery ->
           errors.push 'You need to remove ' + (flavorDifference*-1) + ' flavors.'
           return errors
       if currentStep is 4
+        if @.submitButton.hasClass('disabled') and this.form.data('user-created') != true
+          return false
+        else
+          @.submitButton.addClass('disabled')
         @createUser()
         @createAddress()
 
@@ -369,7 +399,6 @@ jQuery ->
       $('#step-' + (currentStep)).after(@.$el)
 
     render: ->
-      debugger
       if currentStep is 1
         collection = this.options.collectionA
         template = @.template
@@ -383,8 +412,10 @@ jQuery ->
         template = JST['backbone/templates/'+ this.stepsList.steps[currentStep-1] + 'Template']
       else if currentStep is 5
         template = JST['backbone/templates/'+ this.stepsList.steps[currentStep-1] + 'Template']
-
-      @.$el.html( template(currentStep: currentStep) )
+      if currentStep < 4
+        @.$el.html( template(currentStep: currentStep) )
+      else
+        @.$el.html( template(currentStep: currentStep, user: window.user, address: window.userAddress) )
       if currentStep is 4
         @initializeShippingForm()
       if currentStep is 5
@@ -450,18 +481,7 @@ jQuery ->
         $('#step-' + step + ' .items-container').append new Myapp.Views.ItemCartView(model: item, step: step).render()
       ), this
       
-      # each model
-      # newItemCart = new Myapp.Views.ItemCartView(model: @.model)
-      # $('#step-' + (@.typeList.type.indexOf(@model.get('type'))+1) + " .steps-header .items-container").html(@.$el)
 
-
-
-      # something about binding add to item cart view, then remove the render shit
-      # calculating totla price on add or remove as well
-      # bind remove
-      # renderCart
-      # probably move the itemcartview render to here too and typelist
-  
   $(document).on "click", ".steps-wrapper", ->
     if currentStep > $(this).data("step")
       currentStep = $(this).data("step")

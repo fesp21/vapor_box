@@ -18,6 +18,7 @@ Myapp::Application.routes.draw do
   get '/signup', to: 'static_pages#signup'
   get '/faq', to: 'static_pages#faq'
   get "static_pages/home"
+  match '/create_subscription', to: 'application#create_subscription'
   
   match 'contact' => 'contact#new', :as => 'contact', :via => :get
   match 'contact' => 'contact#create', :as => 'contact', :via => :post
