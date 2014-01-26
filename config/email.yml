@@ -1,0 +1,15 @@
+development:
+  :address: smtp.zoho.com
+  :port: 465
+  :authentication: plain
+  :user_name: shop@getvaporbox.com
+  :password: e0qQWU5l
+  :enable_starttls_auto: true
+production:
+  :address: smtp.zoho.com
+  :port: 465
+  :authentication: plain
+  :user_name: shop@getvaporbox.com
+  :password: e0qQWU5l
+  :enable_starttls_auto: true
+

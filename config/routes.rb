@@ -14,10 +14,13 @@ Myapp::Application.routes.draw do
   resources :subscriptions
 
   get '/about', to: 'static_pages#about'
-  get '/how_it_works', to: 'static_pages#how_it_works'
+  get '/how-it-works', to: 'static_pages#how-it-works'
   get '/signup', to: 'static_pages#signup'
+  get '/faq', to: 'static_pages#faq'
   get "static_pages/home"
   
+  match 'contact' => 'contact#new', :as => 'contact', :via => :get
+  match 'contact' => 'contact#create', :as => 'contact', :via => :post
 
   devise_for :users, path_names: {sign_in: "login", sign_out: "logout"}
 

@@ -66,7 +66,7 @@ ActiveRecord::Schema.define(:version => 20140121014526) do
   create_table "one_time_accessories", :force => true do |t|
     t.integer  "subscription_id"
     t.integer  "accessory_id"
-    t.integer  "amount"
+    t.integer  "quantity"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
   end

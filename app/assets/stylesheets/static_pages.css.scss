@@ -1,9 +1,16 @@
 // Place all the styles related to the StaticPages controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,700);
+@import url(http://fonts.googleapis.com/css?family=Montserrat:400,700);
+@import url(http://fonts.googleapis.com/css?family=Lato:400,700);
+
 .button {
   vertical-align: bottom;
 }
+
 #main-content {
   margin-top: -20px;
 }
@@ -75,6 +82,35 @@
       text-align:center;
       background:#687CA5;
       font-weight: bold;
+    }
+  }
+}
+
+#about-content {
+  #steps-content {
+    color: #424242;
+    padding: 50px 0;
+  }
+}
+
+#contact-content {
+  #steps-content {
+    color: #424242;
+    padding: 50px 0;
+    .steps-container {
+      margin: 40px auto; 
+      .steps-description, .circle {
+        display: inline-block;
+      }
+      .steps-description {
+        font-size: 1.8em;
+        .header {
+          line-height: 1.4em;
+        }
+        .description {
+          font-size: 20px;
+        }
+      }
     }
   }
 }
@@ -233,6 +269,31 @@
       margin-left: 15px;
       &.no-margin {
         margin-left: 0px;
+      }
+    }
+  }
+}
+
+#faq-content {
+  #faq-content {
+    color: #424242;
+    padding: 50px 0;
+    .steps-container {
+      margin: 40px auto; 
+      .steps-description, .circle {
+        display: inline-block;
+      }
+      .steps-description {
+        position: absolute;
+        padding: 5px 20px;
+        font-size: 1.8em;
+        .header {
+          line-height: 1.4em;
+        }
+        .description {
+          margin-top: 15px;
+          font-size: 15px;
+        }
       }
     }
   }
