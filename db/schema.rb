@@ -13,12 +13,6 @@
 
 ActiveRecord::Schema.define(:version => 20140121014526) do
 
-  create_table "accesories_subscriptions", :id => false, :force => true do |t|
-    t.integer "accesory_id"
-    t.integer "subscription_id"
-    t.integer "quantity"
-  end
-
   create_table "accessories", :force => true do |t|
     t.string   "name"
     t.integer  "cost"
@@ -26,6 +20,12 @@ ActiveRecord::Schema.define(:version => 20140121014526) do
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
     t.string   "description"
+  end
+
+  create_table "accessories_subscriptions", :id => false, :force => true do |t|
+    t.integer "accessory_id"
+    t.integer "subscription_id"
+    t.integer "quantity"
   end
 
   create_table "addresses", :force => true do |t|
@@ -71,6 +71,12 @@ ActiveRecord::Schema.define(:version => 20140121014526) do
     t.datetime "updated_at",      :null => false
   end
 
+  create_table "plan_subscriptions", :id => false, :force => true do |t|
+    t.integer "plan_id"
+    t.integer "subscription_id"
+    t.integer "quantity"
+  end
+
   create_table "plans", :force => true do |t|
     t.string   "name"
     t.integer  "cost"
@@ -79,12 +85,6 @@ ActiveRecord::Schema.define(:version => 20140121014526) do
     t.datetime "updated_at",   :null => false
     t.integer  "flavor_count"
     t.string   "description"
-  end
-
-  create_table "plans_subscriptions", :id => false, :force => true do |t|
-    t.integer "plan_id"
-    t.integer "subscription_id"
-    t.integer "quantity"
   end
 
   create_table "subscription_charges", :force => true do |t|
