@@ -56,7 +56,8 @@ class SubscriptionsController < ApplicationController
     else
       @ship_date = 1
     end
-    @subscription = Subscription.new(user_id: @user, address_id: @address, customer_strike: @customer.id, ship_date: @ship_date)
+    binding.pry
+    @subscription = Subscription.new(user_id: @user.id, address_id: @address.id, customer_stripe: @customer.id, ship_date: @ship_date)
 
         # process sub
         # plans/sub
@@ -69,6 +70,10 @@ class SubscriptionsController < ApplicationController
 
     respond_to do |format|
       if @subscription.save
+        #update flav join table
+        #update acc join table
+        #update plans join table
+        #update address user/sub
         format.html { redirect_to @subscription, notice: 'Subscription was successfully created.' }
         format.json { render json: @subscription, status: :created, location: @subscription }
       else
