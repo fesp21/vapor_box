@@ -35,5 +35,20 @@ Myapp::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 
-  config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address:                'smtp.zoho.com',
+    port:                      465,
+    user_name:              'shop@getvaporbox.com',
+    domain:                 'getvaporbox.com',
+    password:               'e0qQWU5l',
+    authentication:        'login',
+    ssl:                   'true',
+    tls:                   'true',
+    enable_starttls_auto:  'true' 
+  }
+  
+  config.action_mailer.default_url_options = { host:  'localhost:3000' }
+
 end

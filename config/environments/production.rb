@@ -66,4 +66,20 @@ Myapp::Application.configure do
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
+
+  #ActionMailer
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address:                'smtp.zoho.com',
+    port:                      465,
+    user_name:              'shop@getvaporbox.com',
+    domain:                 'getvaporbox.com',
+    password:               'e0qQWU5l',
+    authentication:        'login',
+    ssl:                   'true',
+    tls:                   'true',
+    enable_starttls_auto:  'true' 
+  }
+  config.action_mailer.default_url_options = { host:  'localhost:3000' }
+
 end
