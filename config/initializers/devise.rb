@@ -227,7 +227,13 @@ Devise.setup do |config|
 
   # The default HTTP method used to sign out a resource. Default is :delete.
   config.sign_out_via = :delete
+  Warden::Manager.after_set_user do |user,auth,opts|
+    auth.cookies[:signed_in] = 1
+  end
 
+  Warden::Manager.before_logout do |user,auth,opts|
+    auth.cookies.delete :signed_in
+  end
   # ==> OmniAuth
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.

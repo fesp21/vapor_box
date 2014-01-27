@@ -1,4 +1,6 @@
+<div id="errors"></div>
 <form accept-charset="UTF-8" >
+  <% if (user.isNew()) { %>
   <div class="field inline no-margin">
     <label for="first_name">First Name</label>
     <input id="first-name" size="32" name="first_name" type="text">
@@ -7,6 +9,7 @@
     <label for="last_name">Last Name</label>
     <input id="last-name" size="32" name="last_name" type="text">
   </div>
+  <% } %>
   <h4>Billing Address</h4>
   <div class="field">
     <label for="address1">Address Line 1</label>
@@ -22,7 +25,63 @@
   </div>
   <div class="field inline">
     <label for="state">State</label>
-    <input id="state" name="state" size="2" type="text">
+    <select id="state" name="state">
+      <option value="">State</option>
+      <option value="AL">AL - Alabama</option>
+      <option value="AK">AK - Alaska</option>
+      <option value="AZ">AZ - Arizona</option>
+      <option value="AR">AR - Arkansas</option>
+      <option value="AE">AE - Armed Forces</option>
+      <option value="AA">AA - Armed Forces America</option>
+      <option value="AP">AP - Armed Forces Pacific</option>
+      <option value="CA">CA - California</option>
+      <option value="CO">CO - Colorado</option>
+      <option value="CT">CT - Connecticut</option>
+      <option value="DE">DE - Delaware</option>
+      <option value="FL">FL - Florida</option>
+      <option value="GA">GA - Georgia</option>
+      <option value="HI">HI - Hawaii</option>
+      <option value="ID">ID - Idaho</option>
+      <option value="IL">IL - Illinois</option>
+      <option value="IN">IN - Indiana</option>
+      <option value="IA">IA - Iowa</option>
+      <option value="KS">KS - Kansas</option>
+      <option value="KY">KY - Kentucky</option>
+      <option value="LA">LA - Louisiana</option>
+      <option value="ME">ME - Maine</option>
+      <option value="MD">MD - Maryland</option>
+      <option value="MA">MA - Massachusetts</option>
+      <option value="MI">MI - Michigan</option>
+      <option value="MN">MN - Minnesota</option>
+      <option value="MS">MS - Mississippi</option>
+      <option value="MO">MO - Missouri</option>
+      <option value="MT">MT - Montana</option>
+      <option value="NE">NE - Nebraska</option>
+      <option value="NV">NV - Nevada</option>
+      <option value="NH">NH - New Hampshire</option>
+      <option value="NJ">NJ - New Jersey</option>
+      <option value="NM">NM - New Mexico</option>
+      <option value="NY">NY - New York</option>
+      <option value="NC">NC - North Carolina</option>
+      <option value="ND">ND - North Dakota</option>
+      <option value="OH">OH - Ohio</option>
+      <option value="OK">OK - Oklahoma</option>
+      <option value="OR">OR - Oregon</option>
+      <option value="PA">PA - Pennsylvania</option>
+      <option value="RI">RI - Rhode Island</option>
+      <option value="SC">SC - South Carolina</option>
+      <option value="SD">SD - South Dakota</option>
+      <option value="TN">TN - Tennessee</option>
+      <option value="TX">TX - Texas</option>
+      <option value="UT">UT - Utah</option>
+      <option value="VT">VT - Vermont</option>
+      <option value="VA">VA - Virginia</option>
+      <option value="WA">WA - Washington</option>
+      <option value="DC">DC - Washington DC</option>
+      <option value="WV">WV - West Virginia</option>
+      <option value="WI">WI - Wisconsin</option>
+      <option value="WY">WY - Wyoming</option>
+    </select>
   </div>
   <div class="field inline">
     <label for="zip">Zip</label>
@@ -37,7 +96,7 @@
       <label for="ship_address1">Address Line 1</label>
       <input id="ship-address1" size="70" name="ship_address1" type="text">
     </div>
-    <div class="field">
+    <div class="field"
       <label for="ship_address2">Address Line 2</label>
       <input id="ship-address2"  size="70" name="ship_address2" type="text">
     </div>
@@ -47,13 +106,70 @@
     </div>
     <div class="field inline">
       <label for="ship_state">State</label>
-      <input id="ship-state" name="ship_state" size="2" type="text">      
+      <select id="ship-state" name="ship_state">
+        <option value="">State</option>
+        <option value="AL">AL - Alabama</option>
+        <option value="AK">AK - Alaska</option>
+        <option value="AZ">AZ - Arizona</option>
+        <option value="AR">AR - Arkansas</option>
+        <option value="AE">AE - Armed Forces</option>
+        <option value="AA">AA - Armed Forces America</option>
+        <option value="AP">AP - Armed Forces Pacific</option>
+        <option value="CA">CA - California</option>
+        <option value="CO">CO - Colorado</option>
+        <option value="CT">CT - Connecticut</option>
+        <option value="DE">DE - Delaware</option>
+        <option value="FL">FL - Florida</option>
+        <option value="GA">GA - Georgia</option>
+        <option value="HI">HI - Hawaii</option>
+        <option value="ID">ID - Idaho</option>
+        <option value="IL">IL - Illinois</option>
+        <option value="IN">IN - Indiana</option>
+        <option value="IA">IA - Iowa</option>
+        <option value="KS">KS - Kansas</option>
+        <option value="KY">KY - Kentucky</option>
+        <option value="LA">LA - Louisiana</option>
+        <option value="ME">ME - Maine</option>
+        <option value="MD">MD - Maryland</option>
+        <option value="MA">MA - Massachusetts</option>
+        <option value="MI">MI - Michigan</option>
+        <option value="MN">MN - Minnesota</option>
+        <option value="MS">MS - Mississippi</option>
+        <option value="MO">MO - Missouri</option>
+        <option value="MT">MT - Montana</option>
+        <option value="NE">NE - Nebraska</option>
+        <option value="NV">NV - Nevada</option>
+        <option value="NH">NH - New Hampshire</option>
+        <option value="NJ">NJ - New Jersey</option>
+        <option value="NM">NM - New Mexico</option>
+        <option value="NY">NY - New York</option>
+        <option value="NC">NC - North Carolina</option>
+        <option value="ND">ND - North Dakota</option>
+        <option value="OH">OH - Ohio</option>
+        <option value="OK">OK - Oklahoma</option>
+        <option value="OR">OR - Oregon</option>
+        <option value="PA">PA - Pennsylvania</option>
+        <option value="RI">RI - Rhode Island</option>
+        <option value="SC">SC - South Carolina</option>
+        <option value="SD">SD - South Dakota</option>
+        <option value="TN">TN - Tennessee</option>
+        <option value="TX">TX - Texas</option>
+        <option value="UT">UT - Utah</option>
+        <option value="VT">VT - Vermont</option>
+        <option value="VA">VA - Virginia</option>
+        <option value="WA">WA - Washington</option>
+        <option value="DC">DC - Washington DC</option>
+        <option value="WV">WV - West Virginia</option>
+        <option value="WI">WI - Wisconsin</option>
+        <option value="WY">WY - Wyoming</option>
+      </select>
     </div>
     <div class="field inline">
       <label for="ship_zip">Zip</label>
       <input id="ship-zip" name="ship_zip" type="text">
     </div>
   </div>
+  <% if (user.isNew()) { %>
   <h4>Create Account</h4>
   <div class="field">
     <label for="email">Email</label>
@@ -67,6 +183,11 @@
     <label for="password_confirmation">Confirm Password</label>
     <input id="password-confirmation" size="32" name="password_confirmation" type="password">
   </div>
+  <% } else { %>
+    <h5>
+      Logged in as <%= user.attributes.email %>
+    </h5> 
+  <% } %>
 </form>
 <div class='step-actions'>
 <button class="back button button-black">Back</button>

@@ -29,11 +29,12 @@
         <ul class="nav navbar-nav">
           <li><a href="/how_it_works">How It Works</a></li>
           <li><a href="/about">About</a></li>
+          <% if !user_signed_in? %>
           <li><a href="/signup">Get Vapor Box</a></li>
+          <% end %>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <% if user_signed_in? %>
-            <li>Logged in as <strong><%= current_user.email %></strong>.</li>
             <li><%= link_to 'Edit profile', edit_user_registration_path %></li>
             <li><%= link_to "Logout", destroy_user_session_path, method: :delete %></li>
           <% else %>

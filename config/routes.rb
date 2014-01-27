@@ -1,17 +1,10 @@
 Myapp::Application.routes.draw do
   resources :plans
-
-
   resources :accessories
-
-
   resources :flavors
-
-
   resources :addresses
-
-
   resources :subscriptions
+
 
   get '/about', to: 'static_pages#about'
   get '/how_it_works', to: 'static_pages#how_it_works'

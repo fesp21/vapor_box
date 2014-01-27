@@ -21,6 +21,10 @@ $navbar-default-bg: #FFF;
 $font-family-sans-serif: 'Open Sans', Verdana, Helvetica, sans-serif;
 @import "bootstrap";
 
+input.error { border: 2px solid red !important;  }
+input:active, button:active {
+  outline: none;
+}
 .row {
   margin-left: 0px;
   margin-right: 0px;
