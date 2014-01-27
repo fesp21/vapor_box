@@ -56,7 +56,7 @@ class SubscriptionsController < ApplicationController
     else
       @ship_date = 1
     end
-    @subscription = Subscription.new(user_id: @user, address_id: @address, token: @token, ship_date: @ship_date)
+    @subscription = Subscription.new(user_id: @user, address_id: @address, customer_strike: @customer.id, ship_date: @ship_date)
 
         # process sub
         # plans/sub

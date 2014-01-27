@@ -97,11 +97,11 @@ ActiveRecord::Schema.define(:version => 20140121014526) do
 
   create_table "subscriptions", :force => true do |t|
     t.integer  "cost"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
     t.integer  "user_id"
     t.integer  "address_id"
-    t.string   "token"
+    t.string   "customer_stripe"
     t.string   "ship_date"
   end
 
