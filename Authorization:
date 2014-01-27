@@ -1,0 +1,36 @@
+Usage: /Users/davidkim/.rvm/gems/ruby-1.9.3-p448/bin/OAuth [options] <command>
+    -B, --body                       Use the request body for OAuth parameters.
+        --consumer-key KEY           Specifies the consumer key to use.
+        --consumer-secret SECRET     Specifies the consumer secret to use.
+    -H, --header                     Use the 'Authorization' header for OAuth parameters (default).
+    -Q, --query-string               Use the query string for OAuth parameters.
+    -O, --options FILE               Read options from a file
+
+  options for signing and querying
+        --method METHOD              Specifies the method (e.g. GET) to use when signing.
+        --nonce NONCE                Specifies the none to use.
+        --parameters PARAMS          Specifies the parameters to use when signing.
+        --signature-method METHOD    Specifies the signature method to use; defaults to HMAC-SHA1.
+        --secret SECRET              Specifies the token secret to use.
+        --timestamp TIMESTAMP        Specifies the timestamp to use.
+        --token TOKEN                Specifies the token to use.
+        --realm REALM                Specifies the realm to use.
+        --uri URI                    Specifies the URI to use when signing.
+        --version VERSION            Specifies the OAuth version to use.
+        --no-version                 Omit oauth_version.
+        --xmpp                       Generate XMPP stanzas.
+    -v, --verbose                    Be verbose.
+
+  options for authorization
+        --access-token-url URL       Specifies the access token URL.
+        --authorize-url URL          Specifies the authorization URL.
+        --callback-url URL           Specifies a callback URL.
+        --request-token-url URL      Specifies the request token URL.
+        --scope SCOPE                Specifies the scope (Google-specific).
+
+Available commands:
+   authorize      Obtain an access token and secret for a user
+   debug          Verbosely generate an OAuth signature
+   query          Query a protected resource
+   sign           Generate an OAuth signature
+   version        Display the current version of the library

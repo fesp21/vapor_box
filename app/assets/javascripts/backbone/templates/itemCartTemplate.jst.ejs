@@ -16,7 +16,7 @@
 
 <% if (item.get('type') != 'flavor') { %>
   <div class='cart-header item-price'>
-    $<%= item.get('cost') %>
+    $<%= (item.get('cost')/100).toFixed(2) %>
   </div>
 <% } %>
 

@@ -1,5 +1,6 @@
 <div class="row">
   <div class="col-md-6">
+    <div id="errors"></div>
     <form id="payment-form">
       <span class="payment-errors"></span>
 
@@ -32,8 +33,17 @@
 
   </div>
   <div class="col-md-6">
-    
-
+    <div class="total-container">
+      <div class="one-time">
+        Your one-time add-ons cost $<%= (total.oneTime/100).toFixed(2) %>
+      </div>      
+      <div class="one-time">
+        You will be billed monthly for $<%= (total.monthly/100).toFixed(2) %>
+      </div>
+      <div class="total">
+        Your total for your first box is $<%= (total.total/100).toFixed(2) %>
+      </div>
+    </div>
   </div>
 </div>
 

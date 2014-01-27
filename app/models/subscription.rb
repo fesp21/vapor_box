@@ -46,9 +46,9 @@ class Subscription < ActiveRecord::Base
     start_date_time = DateTime.now
 
     if start_date_time > DateTime.now.beginning_of_month + 14.day
-      start_date_time = (start_date_time + 1.month).beginning_of_month + 14.day
+      start_date_time = (start_date_time + 2.month).beginning_of_month + 14.day
     else
-      start_date_time = (start_date_time + 1.month).beginning_of_month
+      start_date_time = (start_date_time + 2.month).beginning_of_month
     end
     plan_cost = Plan.find(plans.first['id']).cost/100
 

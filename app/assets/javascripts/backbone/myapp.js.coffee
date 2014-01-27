@@ -60,11 +60,17 @@ jQuery ->
       )
       #define shipping based on plan
       shipping = 0
-
-      $('#shipping-cost').html("Shipping: $" + shipping.toFixed(2))
-      $('#subtotal-monthly').html("Monthly: $" + subtotalMonthly.toFixed(2))
-      $('#subtotal-one-time').html("One-Time: $" + subtotalOneTime.toFixed(2))
-      $('#subtotal').html("Subtotal: $" + (subtotalOneTime + subtotalMonthly).toFixed(2))
+      subTotal = subtotalOneTime +  subtotalMonthly
+      $('#shipping-cost').html("Shipping: $" + (shipping/100).toFixed(2))
+      $('#subtotal-monthly').html("Monthly: $" + (subtotalMonthly/100).toFixed(2))
+      $('#subtotal-one-time').html("One-Time: $" + (subtotalOneTime/100).toFixed(2))
+      $('#subtotal').html("Subtotal: $" + ((subTotal)/100).toFixed(2))
+      cartTotal =
+        shipping: shipping
+        monthly: subtotalMonthly
+        oneTime: subtotalOneTime
+        total: subTotal
+      return cartTotal
 
   Myapp.Models.Flavor = Myapp.Models.ItemModel.extend
     defaults: 
@@ -167,7 +173,7 @@ jQuery ->
       if window.cart.where({ uniqueId: this.model.get('uniqueId')}).length
         this.model.set(selected: true)
       if this.model.get('type') is 'flavor'
-        if this.model.get('level') is '0'
+        if this.model.get('level') is 'Low (6mg)'
           @$el.html @template(item: @model)
       else
         @$el.html @template(item: @model)
@@ -194,6 +200,15 @@ jQuery ->
       #   window.cart.add(@.model)
 
       
+  Myapp.Views.FinalMessageView = Backbone.View.extend
+    initialize: ->
+      @.subscription = @.options.subscription
+      @.render()
+    template: JST['backbone/templates/finalTemplate']
+    el: '.steps-container'
+    render: ->
+      debugger
+      @.$el.html(@.template(subscription: @.subscription))
 
   Myapp.Views.StepView = Backbone.View.extend
     initialize: (options) ->
@@ -221,6 +236,12 @@ jQuery ->
       @.emailField = @.$el.find('input[name=email]')
       @.passwordField = @.$el.find('input[name=password]')
       @.passwordConfirmationField = @.$el.find('input[name=password_confirmation]')
+    fillAttributes: ->
+      self = @
+      _.each window.user.attributes, (value, key) ->
+        self.$el.find("input[name=" + key + "]").val(value)
+      _.each window.userAddress.attributes, (value, key) ->
+        self.$el.find("input[name=" + key + "]").val(value)
     addressAttributes: ->
       if @.sameAddress.val()
         address1: @.Address1Field.val()
@@ -292,9 +313,10 @@ jQuery ->
             userId: window.user.id
           dataType: 'json'
           success: (data) ->
-            debugger
+            debugger;
+            form = new Myapp.Views.FinalMessageView(subscription: data)
           error: (xhr, status, error) ->
-            debugger
+            alert('There was an error with your user. Please e-mail or call us at 973-937-8886 to resolve this issue.')
         # process sub
         # plans/sub
         # flaovrs/sub
@@ -319,15 +341,14 @@ jQuery ->
       window.user.set(@.accountAttributes())
       window.user.save null,
         error: (originalModel, resp, options) ->
-          debugger
           self.$el.find("input").removeClass "error"
           errors = JSON.parse(resp.responseText).errors
           _.each errors, (value, key) ->
-            self.$el.find("input[name=" + key + "]").addClass "error"
-
-          self.submitButton.removeClass "disabled"
-
+            self.$el.find('input[name=' + key + ']').addClass "error"
+          self.displayErrors(['There was an error with your user. Please e-mail or call us at 973-937-8886 to resolve this issue.'])
         success: ->
+          self.createAddress()
+      return @
     createAddress: ->
       self = @
       window.userAddress.set(@.addressAttributes())
@@ -336,9 +357,12 @@ jQuery ->
           self.$el.find("input").removeClass "error"
           errors = JSON.parse(resp.responseText).errors
           _.each errors, (value, key) ->
-            self.$el.find("input[name=" + key + "]").addClass "error"
-          self.submitButton.removeClass "disabled"
+            self.$el.find('input[name=' + key + ']').addClass "error"
+          self.displayErrors(['There was an error with your address. Please e-mail or call us at 973-937-8886 to resolve this issue.'])
         success: ->
+          currentStep = currentStep + 1
+          self.render()  
+      return @
     validateStep: ->
       errors = []
       if currentStep is 1
@@ -353,15 +377,20 @@ jQuery ->
         else if flavorDifference < 0
           errors.push 'You need to remove ' + (flavorDifference*-1) + ' flavors.'
           return errors
-      if currentStep is 4
-        if @.submitButton.hasClass('disabled') and this.form.data('user-created') != true
-          return false
-        else
-          @.submitButton.addClass('disabled')
-        @createUser()
-        @createAddress()
-
-      return @
+      # if currentStep is 4
+      #   if @.submitButton.hasClass('disabled')
+      #     errors.push 'Processing...'
+      #     return errors
+      #   else
+      #     @.submitButton.addClass('disabled')
+      #     if window.user.isNew()
+      #       if !@createUser()
+      #         errors.push 'There was an error with your user. Please e-mail or call us at 973-937-8886 to resolve this issue.'
+      #         return errors
+      #       if !@createAddress()
+      #         errors.push 'There was an error with your address. Please e-mail or call us at 973-937-8886 to resolve this issue.'
+      #         return errors
+      return errors
         # new user model
         # new address model
     toggleShipping: ->
@@ -370,16 +399,25 @@ jQuery ->
           $('#ship-address-form').slideUp()
         else
           $('#ship-address-form').slideDown()
-
+    displayErrors: (errors) ->
+      $('#errors').empty()
+      _.each errors, (error) ->
+        $('#errors').append error
+      return @
     nextStep: ->
-      errors = @.validateStep()
-      if errors.length
-        $('#errors').empty()
-        _.each errors, (error) ->
-          $('#errors').append error
-        return @
-      currentStep = currentStep + 1
-      @.render()
+      if currentStep is 4
+        if window.user.isNew()
+          @createUser()
+        else
+          currentStep = currentStep + 1
+          @.render()
+      else
+        errors = @.validateStep()
+        if errors.length
+          @.displayErrors(errors)
+          return @
+        currentStep = currentStep + 1
+        @.render()
       window.shoppingCartView.render(null, currentStep-1, this.stepsList.stepsSingular[currentStep-2])
 
     backStep: ->
@@ -414,10 +452,15 @@ jQuery ->
         template = JST['backbone/templates/'+ this.stepsList.steps[currentStep-1] + 'Template']
       if currentStep < 4
         @.$el.html( template(currentStep: currentStep) )
+      else if currentStep is 5
+        total = window.cart.calculateSubtotal()
+        @.$el.html( template(currentStep: currentStep, user: window.user, total: total) )
       else
         @.$el.html( template(currentStep: currentStep, user: window.user, address: window.userAddress) )
       if currentStep is 4
         @initializeShippingForm()
+        if window.user.attributes.hasOwnProperty('first_name')
+          @fillAttributes()
       if currentStep is 5
         @initializeCheckoutForm()
       if collection
