@@ -313,7 +313,6 @@ jQuery ->
             userId: window.user.id
           dataType: 'json'
           success: (data) ->
-            debugger;
             form = new Myapp.Views.FinalMessageView(subscription: data)
           error: (xhr, status, error) ->
             alert('There was an error with your user. Please e-mail or call us at 973-937-8886 to resolve this issue.')
