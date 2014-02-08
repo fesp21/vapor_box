@@ -37,10 +37,15 @@
       margin-top: 20px;
       line-height: 1.5em;
     }
+    &.testimonial {
+      width: 100%;
+      margin: 20px auto;
+      font-size: 1.2em;
+      line-height: 1.8em;
+    }
   }
 
   #testimonial {
-    height: 350px;
     padding: 50px 0;
   }
   .features-block {

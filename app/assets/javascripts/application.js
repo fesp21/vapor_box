@@ -14,9 +14,12 @@
 //= require jquery_ujs
 //= require bootstrap
 //= require handlebars.runtime
-//= require_tree .
+//= require jquery.cookie
 //= require underscore
 //= require backbone
 //= require backbone_rails_sync
 //= require backbone_datalink
 //= require backbone/myapp
+//= require ageCheck
+//= require_self
+//= require_tree .
