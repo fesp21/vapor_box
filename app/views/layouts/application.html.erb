@@ -39,21 +39,15 @@
       </div>
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
-          <li><a href="/how-it-works">How It Works</a></li>
-          <li><a href="/about">About</a></li>
+          <li><%= link_to 'How It Works', how_it_works_path %></li>
+          <li><%= link_to 'About', about_path %></li>
+          
           <% if !user_signed_in? %>
-          <li><a href="/signup">Get Vapor Box</a></li>
+          <li><%= link_to 'Get Vapor Box', signup_wufoo_path %></li>
           <% end %>
+          <li><%= link_to 'FAQ', faq_path %></li>
         </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <% if user_signed_in? %>
-            <li><%= link_to 'Edit profile', edit_user_registration_path %></li>
-            <li><%= link_to "Logout", destroy_user_session_path, method: :delete %></li>
-          <% else %>
-            <li><%= link_to "Login", new_user_session_path %></li>
-            <li><%= link_to "Sign Up", new_user_registration_path, :class => 'signup_button' %></li>
-          <% end %>
-        </ul>
+
       </div>
     </div>
   </nav>
@@ -87,10 +81,11 @@
             
           </div>
           <div class='footer-nav text-center'>
-            <%= link_to 'Home', '' %>
-            <%= link_to 'About', '' %>
-            <%= link_to 'How It Works', '' %>
-            <%= link_to 'Get Vapor Box', '' %>
+            <%= link_to 'Home', root_path %>
+            <%= link_to 'About', about_path %>
+            <%= link_to 'How It Works', how_it_works_path %>
+            <%= link_to 'FAQ', faq_path %>
+            <%= link_to 'Get Vapor Box', signup_wufoo_path %>
           </div>
         </div>
     </div>

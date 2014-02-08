@@ -11,6 +11,77 @@
   vertical-align: bottom;
 }
 
+
+#age-gate {
+  .cover {
+    background: url(Blue_Clouds.jpg) no-repeat center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: -1;
+  }
+  .footer {
+    z-index: 2;
+    margin: 0 auto;
+    background: #2C2C2C;
+    color: #fafafa;
+    padding: 50px 0;
+    -moz-opacity: 0.70;
+
+    opacity: .70;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+    width: 90%;
+  }
+  .birth-input {
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.428571429;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+  }
+  .checkbox-group {
+    margin-left: 10px;
+  }
+  .content {
+    padding: 50px 20px;
+    z-index: 2;
+    width: 480px;
+    text-align: center;
+    margin: 50px auto;
+    color: #fafafa;
+    background: #2c2c2c;
+    -moz-opacity: 0.70;
+
+    opacity: .70;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+
+    h1 {
+      font-family: 'Montserrat', sans-serif;
+      text-transform: uppercase;
+    }
+    .button-actions {
+      margin-top: 30px;
+      .inline-group{
+        display: inline-block;
+        vertical-align: middle;
+      }
+    }
+  }
+
+}
 #main-content {
   margin-top: -20px;
 }
@@ -285,7 +356,11 @@
     }
   }
 }
-
+.faq-content {
+  .col-md-6 {
+    padding: 50px 20px;
+  }
+}
 #faq-content {
   #faq-content {
     color: #424242;

@@ -5,13 +5,14 @@ Myapp::Application.routes.draw do
   resources :addresses
   resources :subscriptions
 
+  match 'age_verify', to: 'application#age_verify', as: 'age_verify'
 
-  get '/about', to: 'static_pages#about'
+  get '/about', to: 'static_pages#about', as: 'about'
   get '/18', to: 'static_pages#age_check', as: 'age_check'
-  get '/how-it-works', to: 'static_pages#how-it-works'
-  get '/signup', to: 'static_pages#signup_wufoo'
+  get '/how-it-works', to: 'static_pages#how-it-works', as: 'how_it_works'
+  get '/signup', to: 'static_pages#signup_wufoo', as: 'signup_wufoo'
 
-  get '/faq', to: 'static_pages#faq'
+  get '/faq', to: 'static_pages#faq', as: 'faq'
   get "static_pages/home"
   match '/create_subscription', to: 'application#create_subscription'
   
