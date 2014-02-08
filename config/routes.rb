@@ -7,8 +7,10 @@ Myapp::Application.routes.draw do
 
 
   get '/about', to: 'static_pages#about'
+  get '/18', to: 'static_pages#age_check', as: 'age_check'
   get '/how-it-works', to: 'static_pages#how-it-works'
-  get '/signup', to: 'static_pages#signup'
+  get '/signup', to: 'static_pages#signup_wufoo'
+
   get '/faq', to: 'static_pages#faq'
   get "static_pages/home"
   match '/create_subscription', to: 'application#create_subscription'

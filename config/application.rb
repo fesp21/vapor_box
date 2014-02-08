@@ -12,15 +12,6 @@ end
 module Myapp
   class Application < Rails::Application
 
-config.action_mailer.smtp_settings = {
-  :address              => "smtp.gmail.com",
-  :port                 => 587,
-  :domain               => "getvaporbox.com",
-  :user_name            => "ryeonk@gmail.com",
-  :password             => "Fora1337Green",
-  :authentication       => :plain,
-  :enable_starttls_auto => true
-}
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers

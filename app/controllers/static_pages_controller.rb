@@ -16,5 +16,12 @@ class StaticPagesController < ApplicationController
 
   def contact
   end
+
+  def signup_wufoo
+  end
+
+  def age_check
+  end
+  
   
 end
