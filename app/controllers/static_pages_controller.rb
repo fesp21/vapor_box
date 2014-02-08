@@ -1,4 +1,7 @@
 class StaticPagesController < ApplicationController
+
+  before_filter :adult_check, :except => [:age_check]
+
   def home
   end
 
@@ -21,7 +24,8 @@ class StaticPagesController < ApplicationController
   end
 
   def age_check
+    render layout: 'without_nav'
   end
-  
+
   
 end

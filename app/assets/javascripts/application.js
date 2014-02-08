@@ -19,7 +19,6 @@
 //= require backbone
 //= require backbone_rails_sync
 //= require backbone_datalink
-//= require backbone/myapp
-//= require ageCheck
+//= require scrollTo
+
 //= require_self
-//= require_tree .
