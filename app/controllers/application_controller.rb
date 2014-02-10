@@ -12,6 +12,7 @@ class ApplicationController < ActionController::Base
   end
 
   def age_verify
+    begin
     @date = (params[:birthdate]+'/'+params[:birthmonth] +'/'+params[:birthyear]).to_date
     if (@date + 18.years) < Date.today
       session[:adult] = 'yes'
@@ -24,6 +25,9 @@ class ApplicationController < ActionController::Base
     end
 
     redirect_to root_path
+    rescue ArgumentError
+      redirect_to root_path
+    end
   end
 
 
