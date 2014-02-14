@@ -40,12 +40,13 @@
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
           <li><%= link_to 'How It Works', how_it_works_path %></li>
-          <li><%= link_to 'About', about_path %></li>
-          <li><%= link_to 'FAQ', faq_path %></li>
           <li><%= link_to 'Our Products', products_path %></li>
+          <li><%= link_to 'About', about_path %></li>
           <% if !user_signed_in? %>
           <li><%= link_to 'Get Vapor Box', signup_wufoo_path %></li>
           <% end %>
+          <li><%= link_to 'FAQ', faq_path %></li>
+
         </ul>
 
       </div>
@@ -79,10 +80,10 @@
           </div>
           <div class='footer-nav text-center'>
             <%= link_to 'Home', root_path %>
-            <%= link_to 'About', about_path %>
             <%= link_to 'How It Works', how_it_works_path %>
-            <%= link_to 'FAQ', faq_path %>
+            <%= link_to 'About', about_path %>
             <%= link_to 'Get Vapor Box', signup_wufoo_path %>
+            <%= link_to 'FAQ', faq_path %>
           </div>
         </div>
     </div>
