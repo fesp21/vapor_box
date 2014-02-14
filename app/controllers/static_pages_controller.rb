@@ -23,6 +23,9 @@ class StaticPagesController < ApplicationController
   def signup_wufoo
   end
 
+  def products
+  end
+
   def age_check
     render layout: 'without_nav'
   end
