@@ -11,6 +11,7 @@ Myapp::Application.routes.draw do
   get '/18', to: 'static_pages#age_check', as: 'age_check'
   get '/how-it-works', to: 'static_pages#how-it-works', as: 'how_it_works'
   get '/signup', to: 'static_pages#signup_wufoo', as: 'signup_wufoo'
+  get '/products', to: 'static_pages#products', as: 'products'
 
   get '/faq', to: 'static_pages#faq', as: 'faq'
   get "static_pages/home"
