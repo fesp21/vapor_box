@@ -73,11 +73,7 @@ Myapp::Application.routes.draw do
   # just remember to delete public/index.html.
   root :to => 'static_pages#home'
 
-  constraints(:host => /^www\./) do
-    match "(*x)" => redirect { |params, request|
-      URI.parse(request.url).tap {|url| url.host.sub!('www.', '') }.to_s
-    }
-  end
+  
   
   # See how all your routes lay out with "rake routes"
 
