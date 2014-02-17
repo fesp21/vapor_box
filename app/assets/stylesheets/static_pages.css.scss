@@ -13,6 +13,13 @@
 
 
 #age-gate {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 9999;
   .cover {
     background: url(Blue_Clouds.jpg) no-repeat center center;
     -webkit-background-size: cover;

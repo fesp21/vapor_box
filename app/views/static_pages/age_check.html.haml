@@ -6,7 +6,7 @@
     .logo
     %h5 Please enter your birthday.
 
-    = form_tag age_verify_path, :id => "age-gate" do
+    = form_tag age_verify_path, :id => "age-gate-form" do
       = text_field_tag 'birthmonth', '', maxlength: 2, size: 3, class: "birth-input", placeholder: 'MM'
       = text_field_tag 'birthdate', '', maxlength: 2, size: 3, class: "birth-input", placeholder: 'DD'
       = text_field_tag 'birthyear', '', maxlength: 4, size: 4, class: "birth-input", placeholder: 'YYYY'
