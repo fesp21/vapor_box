@@ -1,5 +1,6 @@
 class SubscriptionsController < ApplicationController
-  
+  # GET /subscriptions
+  # GET /subscriptions.json
   def index
     @subscriptions = Subscription.all
 
@@ -9,6 +10,8 @@ class SubscriptionsController < ApplicationController
     end
   end
 
+  # GET /subscriptions/1
+  # GET /subscriptions/1.json
   def show
     @subscription = Subscription.find(params[:id])
 
@@ -18,6 +21,8 @@ class SubscriptionsController < ApplicationController
     end
   end
 
+  # GET /subscriptions/new
+  # GET /subscriptions/new.json
   def new
     @subscription = Subscription.new
 
@@ -27,12 +32,13 @@ class SubscriptionsController < ApplicationController
     end
   end
 
-
+  # GET /subscriptions/1/edit
   def edit
     @subscription = Subscription.find(params[:id])
   end
 
-
+  # POST /subscriptions
+  # POST /subscriptions.json
   def create
     
     @cart = JSON.parse params[:cart]
@@ -77,6 +83,8 @@ class SubscriptionsController < ApplicationController
     end
   end
 
+  # PUT /subscriptions/1
+  # PUT /subscriptions/1.json
   def update
     @subscription = Subscription.find(params[:id])
 
@@ -91,6 +99,8 @@ class SubscriptionsController < ApplicationController
     end
   end
 
+  # DELETE /subscriptions/1
+  # DELETE /subscriptions/1.json
   def destroy
     @subscription = Subscription.find(params[:id])
     @subscription.destroy
